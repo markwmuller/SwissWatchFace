@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<debugInfo>
+<pcToLineNum>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="3" lineNum="41" pc="268435456" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="3" lineNum="42" pc="268435460" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="3" lineNum="43" pc="268435478" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="3" lineNum="44" pc="268435507" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="3" lineNum="45" pc="268435517" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="49" pc="268435552" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="52" pc="268435556" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="56" pc="268435599" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="57" pc="268435623" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="59" pc="268435669" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="63" pc="268435678" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="67" pc="268435701" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="89" pc="268435876" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="92" pc="268435885" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="94" pc="268435894" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="95" pc="268435958" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="96" pc="268436004" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="97" pc="268436050" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="98" pc="268436096" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="99" pc="268436142" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="100" pc="268436188" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="101" pc="268436234" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="102" pc="268436280" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="103" pc="268436326" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="105" pc="268436372" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="106" pc="268436418" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="107" pc="268436464" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="108" pc="268436510" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="109" pc="268436556" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="4" lineNum="110" pc="268436602" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="117" pc="268436649" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="119" pc="268436653" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="120" pc="268436845" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="121" pc="268436853" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="122" pc="268436872" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="125" pc="268436891" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="126" pc="268436909" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="127" pc="268436946" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="129" pc="268436983" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="5" lineNum="132" pc="268437045" symbol="generateHandCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="135" pc="268437049" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="137" pc="268437053" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="138" pc="268437257" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="139" pc="268437265" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="140" pc="268437284" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="143" pc="268437303" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="144" pc="268437321" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="145" pc="268437358" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="147" pc="268437395" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="6" lineNum="150" pc="268437457" symbol="generateTickCoordinates"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="7" lineNum="154" pc="268437461" symbol="drawHashMarks"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="7" lineNum="155" pc="268437465" symbol="drawHashMarks"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="7" lineNum="158" pc="268437501" symbol="drawHashMarks"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="7" lineNum="160" pc="268437519" symbol="drawHashMarks"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="7" lineNum="163" pc="268437614" symbol="drawHashMarks"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="7" lineNum="164" pc="268437632" symbol="drawHashMarks"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="7" lineNum="167" pc="268437652" symbol="drawHashMarks"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="173" pc="268437748" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="174" pc="268437752" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="175" pc="268437752" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="176" pc="268437752" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="177" pc="268437765" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="178" pc="268437782" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="179" pc="268437782" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="180" pc="268437782" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="181" pc="268437782" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="184" pc="268437785" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="186" pc="268437795" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="187" pc="268437808" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="188" pc="268437820" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="191" pc="268437829" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="193" pc="268437851" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="196" pc="268437855" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="197" pc="268437868" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="200" pc="268437881" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="201" pc="268437917" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="204" pc="268437961" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="207" pc="268437975" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="208" pc="268438015" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="212" pc="268438060" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="215" pc="268438096" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="216" pc="268438127" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="217" pc="268438137" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="220" pc="268438160" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="223" pc="268438217" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="224" pc="268438252" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="243" pc="268438309" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="246" pc="268438323" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="253" pc="268438376" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="254" pc="268438412" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="256" pc="268438472" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="259" pc="268438483" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="260" pc="268438500" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="264" pc="268438511" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="265" pc="268438547" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="266" pc="268438557" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="267" pc="268438567" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="268" pc="268438578" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="270" pc="268438588" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="272" pc="268438617" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="280" pc="268438674" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="281" pc="268438710" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="8" lineNum="284" pc="268438758" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="9" lineNum="288" pc="268438769" symbol="drawDateString"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="9" lineNum="289" pc="268438773" symbol="drawDateString"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="9" lineNum="290" pc="268438817" symbol="drawDateString"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="9" lineNum="292" pc="268438893" symbol="drawDateString"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="9" lineNum="293" pc="268438929" symbol="drawDateString"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="297" pc="268438972" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="301" pc="268438976" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="302" pc="268438988" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="305" pc="268439005" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="306" pc="268439022" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="307" pc="268439032" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="308" pc="268439042" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="309" pc="268439053" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="311" pc="268439063" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="313" pc="268439092" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="315" pc="268439140" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="317" pc="268439167" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="320" pc="268439205" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="321" pc="268439226" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="322" pc="268439275" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="323" pc="268439324" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="326" pc="268439380" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="10" lineNum="327" pc="268439416" symbol="onPartialUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="331" pc="268439431" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="332" pc="268439435" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="333" pc="268439469" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="335" pc="268439503" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="336" pc="268439527" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="337" pc="268439550" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="340" pc="268439572" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="341" pc="268439595" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="344" pc="268439617" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="345" pc="268439640" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="348" pc="268439662" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="349" pc="268439685" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="11" lineNum="353" pc="268439720" symbol="getBoundingBox"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="12" lineNum="361" pc="268439748" symbol="drawBackground"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="12" lineNum="362" pc="268439752" symbol="drawBackground"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="12" lineNum="363" pc="268439765" symbol="drawBackground"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="12" lineNum="367" pc="268439778" symbol="drawBackground"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="12" lineNum="368" pc="268439791" symbol="drawBackground"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="13" lineNum="385" pc="268439825" symbol="onEnterSleep"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="13" lineNum="386" pc="268439829" symbol="onEnterSleep"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="13" lineNum="387" pc="268439839" symbol="onEnterSleep"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="14" lineNum="392" pc="268439856" symbol="onExitSleep"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="14" lineNum="393" pc="268439860" symbol="onExitSleep"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="16" lineNum="403" pc="268439871" symbol="onPowerBudgetExceeded"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="16" lineNum="404" pc="268439875" symbol="onPowerBudgetExceeded"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="16" lineNum="405" pc="268439905" symbol="onPowerBudgetExceeded"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchView.mc" id="16" lineNum="406" pc="268439935" symbol="onPowerBudgetExceeded"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="18" lineNum="8" pc="268439949" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="18" lineNum="9" pc="268439953" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="18" lineNum="13" pc="268439974" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="19" lineNum="16" pc="268439995" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="19" lineNum="18" pc="268439999" symbol="onLayout"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="20" lineNum="21" pc="268440012" symbol="draw"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="20" lineNum="23" pc="268440016" symbol="draw"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="20" lineNum="24" pc="268440069" symbol="draw"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="28" pc="268440082" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="29" pc="268440086" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="30" pc="268440086" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="31" pc="268440086" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="33" pc="268440105" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="34" pc="268440118" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="36" pc="268440131" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="37" pc="268440148" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="39" pc="268440181" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="42" pc="268440259" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="43" pc="268440295" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="46" pc="268440321" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="47" pc="268440357" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="50" pc="268440526" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchBackground.mc" id="21" lineNum="51" pc="268440562" symbol="onUpdate"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchApp.mc" id="23" lineNum="6" pc="268440617" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchApp.mc" id="23" lineNum="7" pc="268440621" symbol="initialize"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchApp.mc" id="24" lineNum="11" pc="268440640" symbol="onStart"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchApp.mc" id="25" lineNum="15" pc="268440645" symbol="onStop"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchApp.mc" id="26" lineNum="19" pc="268440650" symbol="getInitialView"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchApp.mc" id="26" lineNum="20" pc="268440654" symbol="getInitialView"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchApp.mc" id="27" lineNum="24" pc="268440692" symbol="onSettingsChanged"/>
+<entry filename="/home/mark/Desktop/CodeShared/source/SwissRailwayWatchApp.mc" id="27" lineNum="25" pc="268440696" symbol="onSettingsChanged"/>
+<entry filename="Rez" id="33" lineNum="17" pc="268440713" symbol="WatchFace"/>
+<entry filename="Rez" id="33" lineNum="19" pc="268440725" symbol="WatchFace"/>
+<entry filename="Rez" id="33" lineNum="20" pc="268440749" symbol="WatchFace"/>
+<entry filename="Rez" id="33" lineNum="22" pc="268440912" symbol="WatchFace"/>
+</pcToLineNum>
+<symbolTable>
+<entry id="8388644" module="true" symbol="System"/>
+<entry field="true" id="44" symbol="hourMarker_ro"/>
+<entry field="true" id="43" symbol="hourMarker_ri"/>
+<entry id="8389124" method="true" symbol="onUpdate"/>
+<entry id="8389349" symbol="justification"/>
+<entry id="10" object="true" symbol="SwissRailwayWatchView"/>
+<entry id="8390097" method="true" symbol="onPartialUpdate"/>
+<entry field="true" id="19" symbol="ColorBlue"/>
+<entry field="true" id="8388611" module="true" symbol="Toybox"/>
+<entry id="8388645" module="true" symbol="Time"/>
+<entry field="true" id="15" symbol="DoNotDisturbIcon"/>
+<entry field="true" id="30" symbol="offscreenBuffer"/>
+<entry field="true" id="45" symbol="hourMarker_t"/>
+<entry id="8388770" module="true" object="true" symbol="Strings"/>
+<entry field="true" id="26" symbol="ColorWhite"/>
+<entry id="8389280" method="true" symbol="getInitialView"/>
+<entry id="8389068" method="true" symbol="draw"/>
+<entry id="8389377" method="true" symbol="onExitSleep"/>
+<entry id="8390098" method="true" symbol="onPowerBudgetExceeded"/>
+<entry id="8388640" module="true" symbol="Lang"/>
+<entry id="8388639" module="true" symbol="Graphics"/>
+<entry id="12" object="true" symbol="SwissRailwayWatchApp"/>
+<entry field="true" id="25" symbol="ColorBlack"/>
+<entry id="8388769" module="true" object="true" symbol="Rez"/>
+<entry id="8388924" module="true" symbol="Gregorian"/>
+<entry id="8390101" object="true" symbol="BufferedBitmap"/>
+<entry field="true" id="41" symbol="secondHand_r2"/>
+<entry field="true" id="40" symbol="secondHand_r1"/>
+<entry field="true" id="20" symbol="ColorRed"/>
+<entry field="true" id="48" symbol="minuteMarker_t"/>
+<entry id="53" method="true" symbol="getBoundingBox"/>
+<entry field="true" id="21" symbol="ForegroundColorTitle"/>
+<entry id="8388702" method="true" symbol="initialize"/>
+<entry field="true" id="27" symbol="AppName"/>
+<entry id="8389375" method="true" object="true" symbol="WatchFace"/>
+<entry id="11" object="true" symbol="AnalogDelegate"/>
+<entry id="8390146" module="true" object="true" symbol="Background"/>
+<entry id="54" method="true" symbol="drawBackground"/>
+<entry field="true" id="35" symbol="hourHand_r2"/>
+<entry field="true" id="34" symbol="hourHand_r1"/>
+<entry id="8388641" module="true" symbol="Math"/>
+<entry field="true" id="29" symbol="dndIcon"/>
+<entry field="true" id="16" symbol="LauncherIcon"/>
+<entry id="8389683" method="true" symbol="onSettingsChanged"/>
+<entry id="8389660" symbol="palette"/>
+<entry field="true" id="8389795" symbol="doNotDisturb"/>
+<entry id="8388648" module="true" symbol="WatchUi"/>
+<entry id="8389281" method="true" symbol="onStop"/>
+<entry field="true" id="8389065" symbol="locY"/>
+<entry field="true" id="8389064" symbol="locX"/>
+<entry id="8388771" module="true" object="true" symbol="Drawables"/>
+<entry id="8389122" method="true" symbol="onLayout"/>
+<entry field="true" id="23" symbol="ColorDarkGray"/>
+<entry id="8389279" method="true" symbol="onStart"/>
+<entry field="true" id="39" symbol="minuteHand_t"/>
+<entry field="true" id="8389670" symbol="screenShape"/>
+<entry field="true" id="47" symbol="minuteMarker_ro"/>
+<entry field="true" id="46" symbol="minuteMarker_ri"/>
+<entry id="8389376" method="true" symbol="onEnterSleep"/>
+<entry field="true" id="8389348" symbol="font"/>
+<entry field="true" id="18" symbol="ColorLightGray"/>
+<entry field="true" id="32" symbol="screenCenterPoint"/>
+<entry id="50" method="true" symbol="generateTickCoordinates"/>
+<entry id="8389347" symbol="color"/>
+<entry id="51" method="true" symbol="drawHashMarks"/>
+<entry field="true" id="28" symbol="isAwake"/>
+<entry field="true" id="22" symbol="BackgroundColorTitle"/>
+<entry field="true" id="8389067" symbol="height"/>
+<entry field="true" id="42" symbol="secondHand_t"/>
+<entry id="13" module="true" symbol="Layouts"/>
+<entry id="52" method="true" symbol="drawDateString"/>
+<entry field="true" id="24" symbol="MilitaryFormatTitle"/>
+<entry field="true" id="33" symbol="fullScreenRefresh"/>
+<entry id="8390088" module="true" object="true" symbol="JsonData"/>
+<entry field="true" id="8389066" symbol="width"/>
+<entry field="true" id="8389063" symbol="identifier"/>
+<entry id="49" method="true" symbol="generateHandCoordinates"/>
+<entry field="true" id="31" symbol="curClip"/>
+<entry field="true" id="38" symbol="minuteHand_r2"/>
+<entry field="true" id="37" symbol="minuteHand_r1"/>
+<entry id="14" module="true" symbol="Menus"/>
+<entry field="true" id="17" symbol="id_font_black_diamond"/>
+<entry field="true" id="36" symbol="hourHand_t"/>
+<entry field="true" id="9" symbol="partialUpdatesAllowed"/>
+<entry id="8388772" module="true" object="true" symbol="Fonts"/>
+<entry id="8388635" module="true" symbol="Application"/>
+</symbolTable>
+<localVars>
+<entry endPc="268436649" name="dc" stackId="1" startPc="268435552"/>
+<entry endPc="268437032" name="x" stackId="11" startPc="268436909"/>
+<entry endPc="268437032" name="y" stackId="12" startPc="268436909"/>
+<entry endPc="268437045" name="i" stackId="10" startPc="268436909"/>
+<entry endPc="268437048" name="result" stackId="7" startPc="268436653"/>
+<entry endPc="268437048" name="sin" stackId="9" startPc="268436653"/>
+<entry endPc="268437048" name="cos" stackId="8" startPc="268436653"/>
+<entry endPc="268437048" name="coords" stackId="6" startPc="268436653"/>
+<entry endPc="268437049" name="handLength" stackId="3" startPc="268436649"/>
+<entry endPc="268437049" name="tailLength" stackId="4" startPc="268436649"/>
+<entry endPc="268437049" name="width" stackId="5" startPc="268436649"/>
+<entry endPc="268437049" name="angle" stackId="2" startPc="268436649"/>
+<entry endPc="268437049" name="centerPoint" stackId="1" startPc="268436649"/>
+<entry endPc="268437444" name="x" stackId="11" startPc="268437321"/>
+<entry endPc="268437444" name="y" stackId="12" startPc="268437321"/>
+<entry endPc="268437457" name="i" stackId="10" startPc="268437321"/>
+<entry endPc="268437460" name="result" stackId="7" startPc="268437053"/>
+<entry endPc="268437460" name="sin" stackId="9" startPc="268437053"/>
+<entry endPc="268437460" name="cos" stackId="8" startPc="268437053"/>
+<entry endPc="268437460" name="coords" stackId="6" startPc="268437053"/>
+<entry endPc="268437461" name="width" stackId="5" startPc="268437049"/>
+<entry endPc="268437461" name="outerRadius" stackId="4" startPc="268437049"/>
+<entry endPc="268437461" name="innerRadius" stackId="3" startPc="268437049"/>
+<entry endPc="268437461" name="angle" stackId="2" startPc="268437049"/>
+<entry endPc="268437461" name="centerPoint" stackId="1" startPc="268437049"/>
+<entry endPc="268437614" name="i" stackId="2" startPc="268437519"/>
+<entry endPc="268437747" name="i" stackId="3" startPc="268437632"/>
+<entry endPc="268437748" name="dc" stackId="1" startPc="268437461"/>
+<entry endPc="268438755" name="secondHand" stackId="12" startPc="268438511"/>
+<entry endPc="268438755" name="sbb_seconds" stackId="11" startPc="268438511"/>
+<entry endPc="268438768" name="screenWidth" stackId="4" startPc="268437752"/>
+<entry endPc="268438768" name="width" stackId="2" startPc="268437752"/>
+<entry endPc="268438768" name="minuteHandAngle" stackId="6" startPc="268437752"/>
+<entry endPc="268438768" name="secondHand" stackId="8" startPc="268437752"/>
+<entry endPc="268438768" name="clockTime" stackId="5" startPc="268437752"/>
+<entry endPc="268438768" name="dataString" stackId="10" startPc="268437752"/>
+<entry endPc="268438768" name="targetDc" stackId="9" startPc="268437752"/>
+<entry endPc="268438768" name="hourHandAngle" stackId="7" startPc="268437752"/>
+<entry endPc="268438768" name="height" stackId="3" startPc="268437752"/>
+<entry endPc="268438769" name="dc" stackId="1" startPc="268437748"/>
+<entry endPc="268438971" name="dateStr" stackId="5" startPc="268438773"/>
+<entry endPc="268438971" name="info" stackId="4" startPc="268438773"/>
+<entry endPc="268438972" name="x" stackId="2" startPc="268438769"/>
+<entry endPc="268438972" name="dc" stackId="1" startPc="268438769"/>
+<entry endPc="268438972" name="y" stackId="3" startPc="268438769"/>
+<entry endPc="268439430" name="bboxHeight" stackId="7" startPc="268438976"/>
+<entry endPc="268439430" name="secondHand" stackId="4" startPc="268438976"/>
+<entry endPc="268439430" name="secondHandPoints" stackId="5" startPc="268438976"/>
+<entry endPc="268439430" name="bboxWidth" stackId="6" startPc="268438976"/>
+<entry endPc="268439430" name="sbb_seconds" stackId="3" startPc="268438976"/>
+<entry endPc="268439430" name="clockTime" stackId="2" startPc="268438976"/>
+<entry endPc="268439431" name="dc" stackId="1" startPc="268438972"/>
+<entry endPc="268439720" name="i" stackId="4" startPc="268439527"/>
+<entry endPc="268439747" name="max" stackId="3" startPc="268439435"/>
+<entry endPc="268439747" name="min" stackId="2" startPc="268439435"/>
+<entry endPc="268439748" name="points" stackId="1" startPc="268439431"/>
+<entry endPc="268439824" name="height" stackId="3" startPc="268439752"/>
+<entry endPc="268439824" name="width" stackId="2" startPc="268439752"/>
+<entry endPc="268439825" name="dc" stackId="1" startPc="268439748"/>
+<entry endPc="268439946" name="powerInfo" stackId="1" startPc="268439871"/>
+<entry endPc="268439994" name="dictionary" stackId="1" startPc="268439953"/>
+<entry endPc="268440012" name="dc" stackId="1" startPc="268439995"/>
+<entry endPc="268440082" name="dc" stackId="1" startPc="268440012"/>
+<entry endPc="268440616" name="height" stackId="3" startPc="268440086"/>
+<entry endPc="268440616" name="dateStr" stackId="7" startPc="268440086"/>
+<entry endPc="268440616" name="now" stackId="5" startPc="268440086"/>
+<entry endPc="268440616" name="width" stackId="2" startPc="268440086"/>
+<entry endPc="268440616" name="clockTime" stackId="4" startPc="268440086"/>
+<entry endPc="268440616" name="info" stackId="6" startPc="268440086"/>
+<entry endPc="268440617" name="dc" stackId="1" startPc="268440082"/>
+<entry endPc="268440645" name="state" stackId="1" startPc="268440640"/>
+<entry endPc="268440650" name="state" stackId="1" startPc="268440645"/>
+<entry endPc="268440939" name="rez_cmp_local_text_TimeLabel" stackId="3" startPc="268440725"/>
+<entry endPc="268440939" name="rez_cmp_local_custom_drawable_49741330997916467547" stackId="2" startPc="268440725"/>
+<entry endPc="268440940" name="dc" stackId="1" startPc="268440713"/>
+</localVars>
+<annotations/>
+<dataEntryOffsetMappings>
+<dataEntry offset="87" parentId="" symbolId="globals" type="module"/>
+<dataEntry offset="174" parentId="globals" symbolId="Background" type="class"/>
+<dataEntry offset="245" parentId="globals" symbolId="Rez" type="module"/>
+<dataEntry offset="324" parentId="Rez" symbolId="Drawables" type="module"/>
+<dataEntry offset="371" parentId="Rez" symbolId="Menus" type="module"/>
+<dataEntry offset="402" parentId="Rez" symbolId="Fonts" type="module"/>
+<dataEntry offset="441" parentId="Rez" symbolId="Layouts" type="module"/>
+<dataEntry offset="480" parentId="Rez" symbolId="JsonData" type="module"/>
+<dataEntry offset="511" parentId="Rez" symbolId="Strings" type="module"/>
+<dataEntry offset="622" parentId="globals" symbolId="SwissRailwayWatchView" type="class"/>
+<dataEntry offset="941" parentId="globals" symbolId="AnalogDelegate" type="class"/>
+<dataEntry offset="996" parentId="globals" symbolId="SwissRailwayWatchApp" type="class"/>
+</dataEntryOffsetMappings>
+<functions>
+<functionEntry accessMode="public" name="initialize" parent="SwissRailwayWatchView">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onLayout" parent="SwissRailwayWatchView">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="generateHandCoordinates" parent="SwissRailwayWatchView">
+<param id="centerPoint"/>
+<param id="angle"/>
+<param id="handLength"/>
+<param id="tailLength"/>
+<param id="width"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="generateTickCoordinates" parent="SwissRailwayWatchView">
+<param id="centerPoint"/>
+<param id="angle"/>
+<param id="innerRadius"/>
+<param id="outerRadius"/>
+<param id="width"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="drawHashMarks" parent="SwissRailwayWatchView">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onUpdate" parent="SwissRailwayWatchView">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="drawDateString" parent="SwissRailwayWatchView">
+<param id="dc"/>
+<param id="x"/>
+<param id="y"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onPartialUpdate" parent="SwissRailwayWatchView">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="getBoundingBox" parent="SwissRailwayWatchView">
+<param id="points"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="drawBackground" parent="SwissRailwayWatchView">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onEnterSleep" parent="SwissRailwayWatchView">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onExitSleep" parent="SwissRailwayWatchView">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onPowerBudgetExceeded" parent="AnalogDelegate">
+<param id="powerInfo"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="initialize" parent="Background">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onLayout" parent="Background">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="draw" parent="Background">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onUpdate" parent="Background">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="initialize" parent="SwissRailwayWatchApp">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onStart" parent="SwissRailwayWatchApp">
+<param id="state"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onStop" parent="SwissRailwayWatchApp">
+<param id="state"/>
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="getInitialView" parent="SwissRailwayWatchApp">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="onSettingsChanged" parent="SwissRailwayWatchApp">
+<documentation/>
+</functionEntry>
+<functionEntry accessMode="public" name="WatchFace" parent="Layouts">
+<param id="dc"/>
+<documentation/>
+</functionEntry>
+</functions>
+</debugInfo>
