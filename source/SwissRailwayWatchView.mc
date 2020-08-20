@@ -30,6 +30,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var secondHand_r1; 
     var secondHand_r2; 
     var secondHand_t; 
+    var secondHand_ball_r; 
     var hourMarker_ri;
     var hourMarker_ro;
     var hourMarker_t;
@@ -58,6 +59,8 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         } else {
             dndIcon = null;
         }
+        //HACK! Remove DND for now.
+        dndIcon = null;
 
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
         if(Toybox.Graphics has :BufferedBitmap) {
@@ -74,17 +77,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
                     Graphics.COLOR_WHITE
                 ]
             });
-
-            // Allocate a buffer tall enough to draw the date into the full width of the
-            // screen. This buffer is also used for blanking the second hand. This full
-            // color buffer is needed because anti-aliased fonts cannot be drawn into
-            // a buffer with a reduced color palette
-	    /*
-            dateBuffer = new Graphics.BufferedBitmap({
-                :width=>dc.getWidth(),
-                :height=>Graphics.getFontHeight(Graphics.FONT_MEDIUM)
-            });
-            */
         } else {
             offscreenBuffer = null;
         }
@@ -98,9 +90,10 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         minuteHand_r1 = Math.round(44/50.0*dc.getWidth()/2);
         minuteHand_r2 = Math.round(11/50.0*dc.getWidth()/2);
         minuteHand_t = Math.round(4/50.0*dc.getWidth()/2);
-        secondHand_r1 = Math.round(29/50.0*dc.getWidth()/2);
+        secondHand_r1 = Math.round(30/50.0*dc.getWidth()/2);
         secondHand_r2 = Math.round(17/50.0*dc.getWidth()/2);
         secondHand_t = Math.round(1.7/50.0*dc.getWidth()/2);
+        secondHand_ball_r = Math.round(3.7/50.0*dc.getWidth()/2);
 
         hourMarker_ri = Math.round(34/50.0*dc.getWidth()/2);
         hourMarker_ro = Math.round(46/50.0*dc.getWidth()/2);
@@ -116,7 +109,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     // 0 degrees is at the 12 o'clock position, and increases in the clockwise direction.
     function generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) {
         // Map out the coordinates of the watch hand
-        var coords = [[-(width / 2), tailLength], [-(width / 2), -handLength], [width / 2, -handLength], [width / 2, tailLength]];
+        var coords = [[-(width / 2), tailLength], [-Math.round(0.8*width / 2), -handLength], [Math.round(0.8*width / 2), -handLength], [width / 2, tailLength]];
         var result = new [4];
         var cos = Math.cos(angle);
         var sin = Math.sin(angle);
@@ -216,7 +209,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         hourHandAngle = hourHandAngle / (12 * 60.0);
         hourHandAngle = hourHandAngle * Math.PI * 2;
 
- 		//function generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) {
         targetDc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, hourHand_r1, hourHand_r2, hourHand_t));
 
         // Draw the minute hand.
@@ -224,61 +216,30 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         targetDc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
 
 
-        // If we have an offscreen buffer that we are using for the date string,
-        // Draw the date into it. If we do not, the date will get drawn every update
-        // after blanking the second hand.
-	/*
-        if( null != dateBuffer ) {
-            var dateDc = dateBuffer.getDc();
-
-            //Draw the background image buffer into the date buffer to set the background
-            dateDc.drawBitmap(0, -(height / 4), offscreenBuffer);
-
-            //Draw the date string into the buffer.
-            drawDateString( dateDc, width / 2, 0 );
-        }
-	*/
-
         // Output the offscreen buffers to the main display if required.
         drawBackground(dc);
-
-        // Draw the battery percentage directly to the main screen.
-        var dataString = (System.getSystemStats().battery + 0.5).toNumber().toString() + "%";
-
-//        // Also draw the background process data if it is available.
-//        var backgroundData = Application.getApp().temperature;
-//        if(backgroundData != null) {
-//            dataString += " - " + backgroundData;
-//        }
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 2, 3*height/4, Graphics.FONT_TINY, dataString, Graphics.TEXT_JUSTIFY_CENTER);
 
         if( partialUpdatesAllowed ) {
             // If this device supports partial updates and they are currently
             // allowed run the onPartialUpdate method to draw the second hand.
-            onPartialUpdate( dc );
+            onPartialUpdate(dc);
         } else if ( isAwake ) {
-//NEVER EXECUTES
+            //NEVER EXECUTES
             // Otherwise, if we are out of sleep mode, draw the second hand
             // directly in the full update method.
             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-	    var sbb_seconds = clockTime.sec;
-	    sbb_seconds *= 62.0/60.0;
-	    if(sbb_seconds > 60.0){
-	      sbb_seconds = 60;
-	    }
-            var secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
+            var sbb_seconds = clockTime.sec;
+            sbb_seconds *= 62.0/60.0;
+            if(sbb_seconds > 59.0){
+              sbb_seconds = 59;
+            }
+            var secondHand = ((sbb_seconds+1) / 60.0) * Math.PI * 2;
 
+			//never run by simulator!!!!
             dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t));
-
-//            // Draw the arbor in the center of the screen.
-//            targetDc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-//            targetDc.fillCircle(width / 2, height / 2, 7);
-//            targetDc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);
-//            targetDc.drawCircle(width / 2, height / 2, 7);
-
             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-            dc.fillCircle(secondHand[2][0], secondHand[2][1], 10);what the heck why can't i draw  a circle
+            //dc.fillCircle(secondHand[2][0], secondHand[2][1], secondHand_ball_r);
+            dc.fillCircle(secondHand[2][0], secondHand[2][1], secondHand_ball_r);//this should fail, throw an exception. I don't think I ever reach this. 
         }
 
         fullScreenRefresh = false;
@@ -299,32 +260,43 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         // before drawing the updated second hand position. Note this will only re-draw
         // the background in the area specified by the previously computed clipping region.
         if(!fullScreenRefresh) {
+			//goes here in "low power mode"
             drawBackground(dc);
         }
 
         var clockTime = System.getClockTime();
-	var sbb_seconds = clockTime.sec;
-	sbb_seconds *= 62.0/60.0;
-	if(sbb_seconds > 60.0){
-	  sbb_seconds = 60;
-	}
-        var secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
+        var sbb_seconds = clockTime.sec;
+        sbb_seconds *= 62.0/60.0;
+        if(sbb_seconds > 59.0){
+          sbb_seconds = 59;
+        }
+        var secondHand = ((sbb_seconds+1) / 60.0) * Math.PI * 2;
+        var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
+        var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
 
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHand, 60, 20, 2));
-        //targetDc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-        dc.fillCircle(110, 30, 10);
-
-        var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, 60, 20, 2);
 
         // Update the cliping rectangle to the new location of the second hand.
-        curClip = getBoundingBox( secondHandPoints );
+        var bboxPoints = [[secondHandPoints[0][0], secondHandPoints[0][1]],
+        				  [secondHandPoints[1][0], secondHandPoints[1][1]], 
+        				  [secondHandPoints[2][0], secondHandPoints[2][1]], 
+        				  [secondHandPoints[3][0], secondHandPoints[3][1]],
+        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
+        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r],
+        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
+        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r]
+        				  ];
+        				  
+        curClip = getBoundingBox( bboxPoints );
         var bboxWidth = curClip[1][0] - curClip[0][0] + 1;
         var bboxHeight = curClip[1][1] - curClip[0][1] + 1;
         dc.setClip(curClip[0][0], curClip[0][1], bboxWidth, bboxHeight);
 
-        // Draw the second hand to the screen.
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-        dc.fillPolygon(secondHandPoints);
+        //draw here?
+        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+        dc.fillPolygon(secondHandPoints );
+        dc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
+        //circle at centre of watch face
+        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));
     }
 
     // Compute a bounding box from the passed in points
@@ -367,17 +339,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         if( null != offscreenBuffer ) {
             dc.drawBitmap(0, 0, offscreenBuffer);
         }
-
-	/*
-        // Draw the date
-        if( null != dateBuffer ) {
-            // If the date is saved in a Buffered Bitmap, just copy it from there.
-            dc.drawBitmap(0, (height / 4), dateBuffer );
-        } else {
-            // Otherwise, draw it from scratch.
-            drawDateString( dc, width / 2, height / 4 );
-        }
-	*/
     }
 
     // This method is called when the device re-enters sleep mode.
