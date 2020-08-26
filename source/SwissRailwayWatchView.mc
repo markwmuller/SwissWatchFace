@@ -37,13 +37,22 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var minuteMarker_ri;
     var minuteMarker_ro;
     var minuteMarker_t;
-
+    
+    //settings:
+    var hideSecondsPowerSaver; 
+    var invertColors;
+    var simSecSyncPulse;
+	
     // Initialize variables for this view
     function initialize() {
         WatchFace.initialize();
         screenShape = System.getDeviceSettings().screenShape;
         fullScreenRefresh = true;
         partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
+        
+        hideSecondsPowerSaver = Application.Properties.getValue("hideSecondsPowerSaver");
+        invertColors = Application.Properties.getValue("invertColors");
+        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
     }
 
     // Configure the layout of the watchface for this device
@@ -71,8 +80,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
                 :width=>dc.getWidth(),
                 :height=>dc.getHeight(),
                 :palette=> [
-                    Graphics.COLOR_DK_GRAY,
-                    Graphics.COLOR_LT_GRAY,
                     Graphics.COLOR_BLACK,
                     Graphics.COLOR_WHITE
                 ]
@@ -145,7 +152,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
     // Draws the clock tick marks around the outside edges of the screen.
     function drawHashMarks(dc) {
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        if(invertColors){
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
+        }else{
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        }
 
         //hours
         for (var i = 0; i < 12; i += 1) {
@@ -190,7 +201,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         height = targetDc.getHeight();
 
         // Fill the entire background with Black.
-        targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        if(invertColors){
+            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
+        } else { 
+            targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        }
         targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
 
         // Draw the tick marks around the edges of the screen
@@ -202,7 +217,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }
 
         //draw the hour and minute hands
-        targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        if(invertColors){
+            targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        }else{
+            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        }
 
         // Draw the hour hand. Convert it to minutes and compute the angle.
         hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
@@ -245,6 +264,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         fullScreenRefresh = false;
     }
 
+	/*
     // Draw the date string into the provided buffer at the specified location
     function drawDateString( dc, x, y ) {
         var info = Gregorian.info(Time.now(), Time.FORMAT_LONG);
@@ -253,7 +273,8 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, y, Graphics.FONT_MEDIUM, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
-
+    */
+    
     // Handle the partial update event
     function onPartialUpdate( dc ) {
         // If we're not doing a full screen refresh we need to re-draw the background
@@ -263,14 +284,26 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 			//goes here in "low power mode"
             drawBackground(dc);
         }
+        
+        if(isAwake==false and hideSecondsPowerSaver==true){
+            //don't render seconds
+            return;
+        }
 
         var clockTime = System.getClockTime();
         var sbb_seconds = clockTime.sec;
-        sbb_seconds *= 62.0/60.0;
-        if(sbb_seconds > 59.0){
-          sbb_seconds = 59;
+        var secondHand;
+        if(simSecSyncPulse){
+            sbb_seconds *= 62.0/60.0;
+            if(sbb_seconds > 59.0){
+              sbb_seconds = 59;
+            }
+            secondHand = ((sbb_seconds+1) / 60.0) * Math.PI * 2;
         }
-        var secondHand = ((sbb_seconds+1) / 60.0) * Math.PI * 2;
+        else{
+            secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
+        }
+            
         var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
         var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
 
@@ -291,12 +324,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         var bboxHeight = curClip[1][1] - curClip[0][1] + 1;
         dc.setClip(curClip[0][0], curClip[0][1], bboxWidth, bboxHeight);
 
-        //draw here?
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
         dc.fillPolygon(secondHandPoints );
         dc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
         //circle at centre of watch face
-        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));
+        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
     }
 
     // Compute a bounding box from the passed in points

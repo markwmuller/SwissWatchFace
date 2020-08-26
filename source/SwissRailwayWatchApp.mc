@@ -22,6 +22,9 @@ class SwissRailwayWatchApp extends Application.AppBase {
 
     // New app settings have been received so trigger a UI update
     function onSettingsChanged() {
+        hideSecondsPowerSaver = Application.Properties.getValue("hideSecondsPowerSaver");
+        invertColors = Application.Properties.getValue("invertColors");
+        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
         WatchUi.requestUpdate();
     }
 
