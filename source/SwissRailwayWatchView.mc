@@ -289,20 +289,17 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
             //don't render seconds
             return;
         }
-
+        
         var clockTime = System.getClockTime();
         var sbb_seconds = clockTime.sec;
         var secondHand;
-        if(simSecSyncPulse){
+        if(simSecSyncPulse == true){
             sbb_seconds *= 62.0/60.0;
             if(sbb_seconds > 59.0){
               sbb_seconds = 59;
             }
-            secondHand = ((sbb_seconds+1) / 60.0) * Math.PI * 2;
         }
-        else{
-            secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
-        }
+        secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
             
         var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
         var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
