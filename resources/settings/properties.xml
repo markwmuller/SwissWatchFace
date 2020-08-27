@@ -1,7 +1,7 @@
 <properties>
 
     <property id="hideSecondsPowerSaver" type="boolean">true</property>
-    <property id="invertColors" type="boolean">true</property>
+    <property id="invertColors" type="boolean">false</property>
     <property id="simSecSyncPulse" type="boolean">true</property>
 
 </properties>

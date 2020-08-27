@@ -20,6 +20,7 @@ class Background extends WatchUi.Drawable {
 
     function draw(dc) {
         // Set the background color then call to clear the screen
+        dc.setAntiAlias(true);
         dc.setColor(Graphics.COLOR_WHITE, Application.getApp().getProperty("BackgroundColor"));
         dc.clear();
     }
