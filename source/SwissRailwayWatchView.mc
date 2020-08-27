@@ -49,10 +49,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         screenShape = System.getDeviceSettings().screenShape;
         fullScreenRefresh = true;
         partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
-        
-        hideSecondsPowerSaver = Application.Properties.getValue("hideSecondsPowerSaver");
-        invertColors = Application.Properties.getValue("invertColors");
-        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
     }
 
     // Configure the layout of the watchface for this device
@@ -187,6 +183,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         // We always want to refresh the full screen when we get a regular onUpdate call.
         fullScreenRefresh = true;
 
+		//read settings
+        hideSecondsPowerSaver = Application.Properties.getValue("hideSecondsPowerSaver");
+        invertColors = Application.Properties.getValue("invertColors");
+        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
+
         if(null != offscreenBuffer) {
             dc.clearClip();
             curClip = null;
@@ -211,10 +212,10 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         // Draw the tick marks around the edges of the screen
         drawHashMarks(targetDc);
 
-        // Draw the do-not-disturb icon if we support it and the setting is enabled
-        if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
-            targetDc.drawBitmap( width * 0.75, height / 2 - 15, dndIcon);
-        }
+//        // Draw the do-not-disturb icon if we support it and the setting is enabled
+//        if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
+//            targetDc.drawBitmap( width * 0.75, height / 2 - 15, dndIcon);
+//        }
 
         //draw the hour and minute hands
         if(invertColors){
