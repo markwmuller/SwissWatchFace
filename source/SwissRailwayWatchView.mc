@@ -50,6 +50,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         screenShape = System.getDeviceSettings().screenShape;
         fullScreenRefresh = true;
         partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
+
     }
 
     // Configure the layout of the watchface for this device
@@ -105,18 +106,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         minuteMarker_ri = Math.round(42/50.0*dc.getWidth()/2);
         minuteMarker_ro = Math.round(46/50.0*dc.getWidth()/2);
         minuteMarker_t = Math.round(1.2/50.0*dc.getWidth()/2);
-
-		//read settings
-        invertColors = Application.Properties.getValue("invertColors");
-        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
-		if(dc has :setAntiAlias) {
-			useAntiAliasing = Application.Properties.getValue("useAntiAliasing");
-		} else {
-			//can't do AA, even if setting "true"
-			useAntiAliasing = false;
-		}
-		dc.setAntiAlias(useAntiAliasing);
-        drawDate = Application.Properties.getValue("drawDate");
     }
 
     // This function is used to generate the coordinates of the 4 corners of the polygon
@@ -184,6 +173,8 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
 	//When we can do anti-aliasing
     function onUpdateAA(dc) {
+		dc.clearClip();
+		dc.setAntiAlias(true);
         var clockTime = System.getClockTime();
 		//need to update at least minute hand
         var width = dc.getWidth();
@@ -277,9 +268,21 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
     // Handle the update event
     function onUpdate(dc) {
-    	if(useAntiAliasing){
-    		onUpdateAA(dc);
-    		return;
+		//read settings
+        invertColors = Application.Properties.getValue("invertColors");
+        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
+		useAntiAliasing = Application.Properties.getValue("useAntiAliasing");
+        drawDate = Application.Properties.getValue("drawDate");
+
+    	if(dc has :setAntiAlias){
+    		if(useAntiAliasing){
+				dc.clearClip();
+				offscreenBuffer = null;
+				onUpdateAA(dc);
+				return;
+			}
+
+			dc.setAntiAlias(false);
     	}
         var width;
         var height;

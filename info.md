@@ -10,7 +10,7 @@ In the settings, you can emulate a synchronization pulse, where the second hand 
 
 You can also invert black / white colors for a darker watch face. Toggle anti-aliasing in the settings; might use less power with anti-aliasing "off", but won't look as nice. 
 
-There is currently no display of date, notifications, steps, etc.
+There is currently no display of notifications, battery, etc.
 
 #  What’s New (Optional) (Maximum 4,000 Characters)
 V0.1 -- Added Anti-aliasing, which will give a much nicer display. This only works on newer watches, I think. 
