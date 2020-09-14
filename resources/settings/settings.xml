@@ -11,5 +11,9 @@
     <setting propertyKey="@Properties.simSecSyncPulse" title="@Strings.simSecSyncPulse">
         <settingConfig type="boolean" />
     </setting>
+    
+    <setting propertyKey="@Properties.drawDate" title="@Strings.drawDate">
+        <settingConfig type="boolean" />
+    </setting>
 
 </settings>

@@ -42,6 +42,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var invertColors;
     var simSecSyncPulse;
     var useAntiAliasing;
+    var drawDate;
 	
     // Initialize variables for this view
     function initialize() {
@@ -114,6 +115,8 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 			//can't do AA, even if setting "true"
 			useAntiAliasing = false;
 		}
+		dc.setAntiAlias(useAntiAliasing);
+        drawDate = Application.Properties.getValue("drawDate");
     }
 
     // This function is used to generate the coordinates of the 4 corners of the polygon
@@ -183,8 +186,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     function onUpdateAA(dc) {
         var clockTime = System.getClockTime();
 		//need to update at least minute hand
-		
-		dc.setAntiAlias(true);
         var width = dc.getWidth();
         var height = dc.getHeight();
 
@@ -204,13 +205,25 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 //            dc.drawBitmap( width * 0.75, height / 2 - 15, dndIcon);
 //        }
 
+		if(drawDate){
+			var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+			var dateStr = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
+
+			if(invertColors){
+				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			}else{
+				dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+			}
+			dc.drawText(width/2, (height*3)/5, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+		}
+
         //draw the hour and minute hands
         if(invertColors){
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         }else{
             dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
         }
-
+        
         // Draw the hour hand. Convert it to minutes and compute the angle.
         var hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
         hourHandAngle = hourHandAngle / (12 * 60.0);
@@ -308,6 +321,22 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 //        if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
 //            targetDc.drawBitmap( width * 0.75, height / 2 - 15, dndIcon);
 //        }
+
+		/* doesn't work, get error about anti-aliased fonts!
+		if(drawDate){
+			System.println("print date");
+			var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+			var dateStr = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
+
+			if(invertColors){
+				targetDc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			}else{
+				targetDc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+			}
+			targetDc.drawText(width/2, (height*3)/5, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+		}
+		*/
+
 
         //draw the hour and minute hands
         if(invertColors){
