@@ -4,10 +4,6 @@
         <settingConfig type="boolean" />
     </setting>
 
-    <setting propertyKey="@Properties.hideSecondsPowerSaver" title="@Strings.hideSecondsPowerSaver">
-        <settingConfig type="boolean" />
-    </setting>
-    
     <setting propertyKey="@Properties.invertColors" title="@Strings.invertColors">
         <settingConfig type="boolean" />
     </setting>

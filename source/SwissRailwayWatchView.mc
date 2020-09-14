@@ -39,7 +39,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var minuteMarker_t;
     
     //settings:
-    var hideSecondsPowerSaver; 
     var invertColors;
     var simSecSyncPulse;
     var useAntiAliasing;
@@ -107,7 +106,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         minuteMarker_t = Math.round(1.2/50.0*dc.getWidth()/2);
 
 		//read settings
-        hideSecondsPowerSaver = Application.Properties.getValue("hideSecondsPowerSaver");
         invertColors = Application.Properties.getValue("invertColors");
         simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
 		if(dc has :setAntiAlias) {
@@ -224,8 +222,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         var minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
 
-        if(isAwake==false and hideSecondsPowerSaver==true){
+        if(isAwake==false){
             //don't render seconds
+            //draw circle at center of watch face
+			dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+			dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
             return;
         }
         
@@ -243,7 +244,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
 
 
-        // Update the cliping rectangle to the new location of the second hand.
+        // Update the clipping rectangle to the new location of the second hand.
         var bboxPoints = [[secondHandPoints[0][0], secondHandPoints[0][1]],
         				  [secondHandPoints[1][0], secondHandPoints[1][1]], 
         				  [secondHandPoints[2][0], secondHandPoints[2][1]], 
@@ -377,8 +378,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
             drawBackground(dc);
         }
         
-        if(isAwake==false and hideSecondsPowerSaver==true){
+        if(isAwake==false){
             //don't render seconds
+            //draw circle at center of watch face
+			dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+			dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
             return;
         }
         
@@ -397,7 +401,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
 
 
-        // Update the cliping rectangle to the new location of the second hand.
+        // Update the clipping rectangle to the new location of the second hand.
         var bboxPoints = [[secondHandPoints[0][0], secondHandPoints[0][1]],
         				  [secondHandPoints[1][0], secondHandPoints[1][1]], 
         				  [secondHandPoints[2][0], secondHandPoints[2][1]], 

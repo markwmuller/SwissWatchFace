@@ -3,7 +3,6 @@
     <string id="AppName">Swiss Railway Watch</string>
 
     <string id="useAntiAliasing">Use anti-aliasing (if available)?</string>
-    <string id="hideSecondsPowerSaver">Hide seconds when not active to save power?</string>
     <string id="invertColors">Invert colors (swap black / white)?</string>
     <string id="simSecSyncPulse">Simulate central sync pulse (pause seconds at zero)?</string>
 

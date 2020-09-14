@@ -1,7 +1,6 @@
 <properties>
 
     <property id="useAntiAliasing" type="boolean">true</property>
-    <property id="hideSecondsPowerSaver" type="boolean">true</property>
     <property id="invertColors" type="boolean">false</property>
     <property id="simSecSyncPulse" type="boolean">true</property>
 
