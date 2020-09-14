@@ -1,4 +1,8 @@
 <settings>
+    
+    <setting propertyKey="@Properties.useAntiAliasing" title="@Strings.useAntiAliasing">
+        <settingConfig type="boolean" />
+    </setting>
 
     <setting propertyKey="@Properties.hideSecondsPowerSaver" title="@Strings.hideSecondsPowerSaver">
         <settingConfig type="boolean" />

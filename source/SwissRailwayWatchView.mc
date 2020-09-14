@@ -42,6 +42,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var hideSecondsPowerSaver; 
     var invertColors;
     var simSecSyncPulse;
+    var useAntiAliasing;
 	
     // Initialize variables for this view
     function initialize() {
@@ -104,6 +105,17 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         minuteMarker_ri = Math.round(42/50.0*dc.getWidth()/2);
         minuteMarker_ro = Math.round(46/50.0*dc.getWidth()/2);
         minuteMarker_t = Math.round(1.2/50.0*dc.getWidth()/2);
+
+		//read settings
+        hideSecondsPowerSaver = Application.Properties.getValue("hideSecondsPowerSaver");
+        invertColors = Application.Properties.getValue("invertColors");
+        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
+		if(dc has :setAntiAlias) {
+			useAntiAliasing = Application.Properties.getValue("useAntiAliasing");
+		} else {
+			//can't do AA, even if setting "true"
+			useAntiAliasing = false;
+		}
     }
 
     // This function is used to generate the coordinates of the 4 corners of the polygon
@@ -169,8 +181,92 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }
     }
 
+	//When we can do anti-aliasing
+    function onUpdateAA(dc) {
+        var clockTime = System.getClockTime();
+		//need to update at least minute hand
+		
+		dc.setAntiAlias(true);
+        var width = dc.getWidth();
+        var height = dc.getHeight();
+
+        // Fill the entire background with Black.
+        if(invertColors){
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
+        } else { 
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        }
+        dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
+
+        // Draw the tick marks around the edges of the screen
+        drawHashMarks(dc);
+
+//        // Draw the do-not-disturb icon if we support it and the setting is enabled
+//        if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
+//            dc.drawBitmap( width * 0.75, height / 2 - 15, dndIcon);
+//        }
+
+        //draw the hour and minute hands
+        if(invertColors){
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        }else{
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        }
+
+        // Draw the hour hand. Convert it to minutes and compute the angle.
+        var hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
+        hourHandAngle = hourHandAngle / (12 * 60.0);
+        hourHandAngle = hourHandAngle * Math.PI * 2;
+
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, hourHand_r1, hourHand_r2, hourHand_t));
+
+        // Draw the minute hand.
+        var minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
+        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
+
+        if(isAwake==false and hideSecondsPowerSaver==true){
+            //don't render seconds
+            return;
+        }
+        
+        //draw second hand too
+        var sbb_seconds = clockTime.sec;
+        if(simSecSyncPulse == true){
+            sbb_seconds *= 62.0/60.0;
+            if(sbb_seconds > 59.0){
+              sbb_seconds = 59;
+            }
+        }
+        var secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
+            
+        var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
+        var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
+
+
+        // Update the cliping rectangle to the new location of the second hand.
+        var bboxPoints = [[secondHandPoints[0][0], secondHandPoints[0][1]],
+        				  [secondHandPoints[1][0], secondHandPoints[1][1]], 
+        				  [secondHandPoints[2][0], secondHandPoints[2][1]], 
+        				  [secondHandPoints[3][0], secondHandPoints[3][1]],
+        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
+        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r],
+        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
+        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r]
+        				  ];
+        				  
+        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+        dc.fillPolygon(secondHandPoints );
+        dc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
+        //circle at centre of watch face
+        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
+    }
+
     // Handle the update event
     function onUpdate(dc) {
+    	if(useAntiAliasing){
+    		onUpdateAA(dc);
+    		return;
+    	}
         var width;
         var height;
         var screenWidth = dc.getWidth();
@@ -182,11 +278,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
         // We always want to refresh the full screen when we get a regular onUpdate call.
         fullScreenRefresh = true;
-
-		//read settings
-        hideSecondsPowerSaver = Application.Properties.getValue("hideSecondsPowerSaver");
-        invertColors = Application.Properties.getValue("invertColors");
-        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
 
         if(null != offscreenBuffer) {
             dc.clearClip();
