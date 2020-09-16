@@ -1,3 +1,10 @@
+/* (c) 2020 Mark W. Mueller
+
+TODO
+1. Re-enable setting to always show seconds?
+*/
+
+
 using Toybox.Graphics;
 using Toybox.Lang;
 using Toybox.Math;
@@ -7,20 +14,12 @@ using Toybox.Time.Gregorian;
 using Toybox.WatchUi;
 using Toybox.Application;
 
-var partialUpdatesAllowed = false;
-
 //From Garmin's "Analog" example
 
 class SwissRailwayWatchView extends WatchUi.WatchFace {
-    var font;
     var isAwake;
-    var screenShape;
-    var dndIcon;
-    var offscreenBuffer;
-    //var dateBuffer;
-    var curClip;
+    // define watch geometry:
     var screenCenterPoint;
-    var fullScreenRefresh;
     var hourHand_r1; 
     var hourHand_r2; 
     var hourHand_t; 
@@ -37,57 +36,20 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var minuteMarker_ri;
     var minuteMarker_ro;
     var minuteMarker_t;
-    
     //settings:
-    var invertColors;
-    var simSecSyncPulse;
-    var useAntiAliasing;
-    var drawDate;
+    var setting_invertColors;
+    var setting_simSecSyncPulse;
+    var setting_drawDate;
+    var setting_lowBattWarning;
 	
     // Initialize variables for this view
     function initialize() {
         WatchFace.initialize();
-        screenShape = System.getDeviceSettings().screenShape;
-        fullScreenRefresh = true;
-        partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
 
     }
 
     // Configure the layout of the watchface for this device
     function onLayout(dc) {
-
-        // Load the custom font we use for drawing the 3, 6, 9, and 12 on the watchface.
-        font = WatchUi.loadResource(Rez.Fonts.id_font_black_diamond);
-
-        // If this device supports the Do Not Disturb feature,
-        // load the associated Icon into memory.
-        if (System.getDeviceSettings() has :doNotDisturb) {
-            dndIcon = WatchUi.loadResource(Rez.Drawables.DoNotDisturbIcon);
-        } else {
-            dndIcon = null;
-        }
-        //HACK! Remove DND for now.
-        dndIcon = null;
-
-        // If this device supports BufferedBitmap, allocate the buffers we use for drawing
-        if(Toybox.Graphics has :BufferedBitmap) {
-            // Allocate a full screen size buffer with a palette of only 4 colors to draw
-            // the background image of the watchface.  This is used to facilitate blanking
-            // the second hand during partial updates of the display
-            offscreenBuffer = new Graphics.BufferedBitmap({
-                :width=>dc.getWidth(),
-                :height=>dc.getHeight(),
-                :palette=> [
-                    Graphics.COLOR_BLACK,
-                    Graphics.COLOR_WHITE
-                ]
-            });
-        } else {
-            offscreenBuffer = null;
-        }
-
-        curClip = null;
-
         screenCenterPoint = [dc.getWidth()/2, dc.getHeight()/2];
         hourHand_r1 = Math.round(30/50.0*dc.getWidth()/2);
         hourHand_r2 = Math.round(11/50.0*dc.getWidth()/2);
@@ -112,6 +74,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     // used to draw a watch hand. The coordinates are generated with specified length,
     // tail length, and width and rotated around the center point at the provided angle.
     // 0 degrees is at the 12 o'clock position, and increases in the clockwise direction.
+    // from "analog" example
     function generateHandCoordinates(centerPoint, angle, handLength, tailLength, width) {
         // Map out the coordinates of the watch hand
         var coords = [[-(width / 2), tailLength], [-Math.round(0.8*width / 2), -handLength], [Math.round(0.8*width / 2), -handLength], [width / 2, tailLength]];
@@ -150,7 +113,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
     // Draws the clock tick marks around the outside edges of the screen.
     function drawHashMarks(dc) {
-        if(invertColors){
+        if(setting_invertColors){
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
         }else{
             dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
@@ -171,17 +134,19 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }
     }
 
-	//When we can do anti-aliasing
-    function onUpdateAA(dc) {
-		dc.clearClip();
+    function onUpdate(dc) {
+		//read settings
+        setting_invertColors = Application.Properties.getValue("invertColors");
+        setting_simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
+        setting_drawDate = Application.Properties.getValue("drawDate");
+        setting_lowBattWarning = Application.Properties.getValue("lowBattWarning");
+
 		dc.setAntiAlias(true);
+
         var clockTime = System.getClockTime();
-		//need to update at least minute hand
-        var width = dc.getWidth();
-        var height = dc.getHeight();
 
         // Fill the entire background with Black.
-        if(invertColors){
+        if(setting_invertColors){
             dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
         } else { 
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
@@ -191,25 +156,12 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         // Draw the tick marks around the edges of the screen
         drawHashMarks(dc);
 
-//        // Draw the do-not-disturb icon if we support it and the setting is enabled
-//        if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
-//            dc.drawBitmap( width * 0.75, height / 2 - 15, dndIcon);
-//        }
+		drawDate(dc);
 
-		if(drawDate){
-			var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-			var dateStr = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
-
-			if(invertColors){
-				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-			}else{
-				dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-			}
-			dc.drawText(width/2, (height*3)/5, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
-		}
-
+		drawBatteryWarning(dc);
+		
         //draw the hour and minute hands
-        if(invertColors){
+        if(setting_invertColors){
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         }else{
             dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
@@ -236,7 +188,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         
         //draw second hand too
         var sbb_seconds = clockTime.sec;
-        if(simSecSyncPulse == true){
+        if(setting_simSecSyncPulse == true){
             sbb_seconds *= 62.0/60.0;
             if(sbb_seconds > 59.0){
               sbb_seconds = 59;
@@ -247,255 +199,77 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
         var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
 
-
-        // Update the clipping rectangle to the new location of the second hand.
-        var bboxPoints = [[secondHandPoints[0][0], secondHandPoints[0][1]],
-        				  [secondHandPoints[1][0], secondHandPoints[1][1]], 
-        				  [secondHandPoints[2][0], secondHandPoints[2][1]], 
-        				  [secondHandPoints[3][0], secondHandPoints[3][1]],
-        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
-        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r],
-        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
-        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r]
-        				  ];
-        				  
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-        dc.fillPolygon(secondHandPoints );
+        dc.fillPolygon(secondHandPoints);
         dc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
         //circle at centre of watch face
         dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
     }
-
-    // Handle the update event
-    function onUpdate(dc) {
-		//read settings
-        invertColors = Application.Properties.getValue("invertColors");
-        simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
-		useAntiAliasing = Application.Properties.getValue("useAntiAliasing");
-        drawDate = Application.Properties.getValue("drawDate");
-
-    	if(dc has :setAntiAlias){
-    		if(useAntiAliasing){
-				dc.clearClip();
-				offscreenBuffer = null;
-				onUpdateAA(dc);
-				return;
-			}
-
-			dc.setAntiAlias(false);
-    	}
-        var width;
-        var height;
-        var screenWidth = dc.getWidth();
-        var clockTime = System.getClockTime();
-        var minuteHandAngle;
-        var hourHandAngle;
-        var secondHand;
-        var targetDc = null;
-
-        // We always want to refresh the full screen when we get a regular onUpdate call.
-        fullScreenRefresh = true;
-
-        if(null != offscreenBuffer) {
-            dc.clearClip();
-            curClip = null;
-            // If we have an offscreen buffer that we are using to draw the background,
-            // set the draw context of that buffer as our target.
-            targetDc = offscreenBuffer.getDc();
-        } else {
-            targetDc = dc;
-        }
-
-        width = targetDc.getWidth();
-        height = targetDc.getHeight();
-
-        // Fill the entire background with Black.
-        if(invertColors){
-            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
-        } else { 
-            targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        }
-        targetDc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
-
-        // Draw the tick marks around the edges of the screen
-        drawHashMarks(targetDc);
-
-//        // Draw the do-not-disturb icon if we support it and the setting is enabled
-//        if (null != dndIcon && System.getDeviceSettings().doNotDisturb) {
-//            targetDc.drawBitmap( width * 0.75, height / 2 - 15, dndIcon);
-//        }
-
-		/* doesn't work, get error about anti-aliased fonts!
-		if(drawDate){
-			System.println("print date");
-			var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-			var dateStr = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
-
-			if(invertColors){
-				targetDc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-			}else{
-				targetDc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-			}
-			targetDc.drawText(width/2, (height*3)/5, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
-		}
-		*/
-
-
-        //draw the hour and minute hands
-        if(invertColors){
-            targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        }else{
-            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-        }
-
-        // Draw the hour hand. Convert it to minutes and compute the angle.
-        hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
-        hourHandAngle = hourHandAngle / (12 * 60.0);
-        hourHandAngle = hourHandAngle * Math.PI * 2;
-
-        targetDc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, hourHand_r1, hourHand_r2, hourHand_t));
-
-        // Draw the minute hand.
-        minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
-        targetDc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
-
-
-        // Output the offscreen buffers to the main display if required.
-        drawBackground(dc);
-
-        if( partialUpdatesAllowed ) {
-            // If this device supports partial updates and they are currently
-            // allowed run the onPartialUpdate method to draw the second hand.
-            onPartialUpdate(dc);
-        } else if ( isAwake ) {
-            //NEVER EXECUTES
-            // Otherwise, if we are out of sleep mode, draw the second hand
-            // directly in the full update method.
-            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-            var sbb_seconds = clockTime.sec;
-            sbb_seconds *= 62.0/60.0;
-            if(sbb_seconds > 59.0){
-              sbb_seconds = 59;
-            }
-            var secondHand = ((sbb_seconds+1) / 60.0) * Math.PI * 2;
-
-			//never run by simulator!!!!
-            dc.fillPolygon(generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t));
-            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-            //dc.fillCircle(secondHand[2][0], secondHand[2][1], secondHand_ball_r);
-            dc.fillCircle(secondHand[2][0], secondHand[2][1], secondHand_ball_r);//this should fail, throw an exception. I don't think I ever reach this. 
-        }
-
-        fullScreenRefresh = false;
-    }
-
-	/*
-    // Draw the date string into the provided buffer at the specified location
-    function drawDateString( dc, x, y ) {
-        var info = Gregorian.info(Time.now(), Time.FORMAT_LONG);
-        var dateStr = Lang.format("$1$ $2$ $3$", [info.day_of_week, info.month, info.day]);
-
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y, Graphics.FONT_MEDIUM, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
-    }
-    */
     
-    // Handle the partial update event
-    function onPartialUpdate( dc ) {
-        // If we're not doing a full screen refresh we need to re-draw the background
-        // before drawing the updated second hand position. Note this will only re-draw
-        // the background in the area specified by the previously computed clipping region.
-        if(!fullScreenRefresh) {
-			//goes here in "low power mode"
-            drawBackground(dc);
-        }
-        
-        if(isAwake==false){
-            //don't render seconds
-            //draw circle at center of watch face
-			dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-			dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
-            return;
-        }
-        
-        var clockTime = System.getClockTime();
-        var sbb_seconds = clockTime.sec;
-        var secondHand;
-        if(simSecSyncPulse == true){
-            sbb_seconds *= 62.0/60.0;
-            if(sbb_seconds > 59.0){
-              sbb_seconds = 59;
-            }
-        }
-        secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
-            
-        var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
-        var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
+    function drawDate(dc) {
+		if(!setting_drawDate){
+			return;
+		}
+	
+		var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+		var dateStr = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
 
+		if(setting_invertColors){
+			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+		}else{
+			dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+		}
 
-        // Update the clipping rectangle to the new location of the second hand.
-        var bboxPoints = [[secondHandPoints[0][0], secondHandPoints[0][1]],
-        				  [secondHandPoints[1][0], secondHandPoints[1][1]], 
-        				  [secondHandPoints[2][0], secondHandPoints[2][1]], 
-        				  [secondHandPoints[3][0], secondHandPoints[3][1]],
-        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
-        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r],
-        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
-        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r]
-        				  ];
-        				  
-        curClip = getBoundingBox( bboxPoints );
-        var bboxWidth = curClip[1][0] - curClip[0][0] + 1;
-        var bboxHeight = curClip[1][1] - curClip[0][1] + 1;
-        dc.setClip(curClip[0][0], curClip[0][1], bboxWidth, bboxHeight);
-
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-        dc.fillPolygon(secondHandPoints );
-        dc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
-        //circle at centre of watch face
-        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
+		dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    // Compute a bounding box from the passed in points
-    function getBoundingBox( points ) {
-        var min = [9999,9999];
-        var max = [0,0];
-
-        for (var i = 0; i < points.size(); ++i) {
-            if(points[i][0] < min[0]) {
-                min[0] = points[i][0];
-            }
-
-            if(points[i][1] < min[1]) {
-                min[1] = points[i][1];
-            }
-
-            if(points[i][0] > max[0]) {
-                max[0] = points[i][0];
-            }
-
-            if(points[i][1] > max[1]) {
-                max[1] = points[i][1];
-            }
+    function drawBatteryWarning(dc) {
+		if(!setting_lowBattWarning){
+			return;
+		}
+	
+		var battLvl = System.getSystemStats().battery;
+		
+		if(battLvl > 30){
+			//plenty of battery
+			return;
+		}
+		if(battLvl < 20){
+			//very low battery, show in red
+			dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+		} else {
+			if(setting_invertColors){
+				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+			}else{
+				dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+			}
+		}
+		
+		var battIconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
+		
+		var battWidth = screenCenterPoint[0]/4;
+		var battHeight = (battWidth*2) / 3;
+	  	var battWrnPts = [[-battWidth/2, -battHeight/2],
+	  					  [-battWidth/2, +battHeight/2],
+	  					  [+(battWidth*4)/10, +battHeight/2],
+	  					  [+(battWidth*4)/10, -battHeight/2],
+	  					 ];
+        for (var i = 0; i < 4; i += 1) {
+        	battWrnPts[i][0] += battIconLoc[0];
+        	battWrnPts[i][1] += battIconLoc[1];
         }
-
-        return [min, max];
-    }
-
-    // Draw the watch face background
-    // onUpdate uses this method to transfer newly rendered Buffered Bitmaps
-    // to the main display.
-    // onPartialUpdate uses this to blank the second hand from the previous
-    // second before outputing the new one.
-    function drawBackground(dc) {
-        var width = dc.getWidth();
-        var height = dc.getHeight();
-
-        //If we have an offscreen buffer that has been written to
-        //draw it to the screen.
-        if( null != offscreenBuffer ) {
-            dc.drawBitmap(0, 0, offscreenBuffer);
+        dc.fillPolygon(battWrnPts);
+        battHeight = (battHeight*3)/5;
+	  	battWrnPts = [[-battWidth/2, -battHeight/2],
+	  				  [-battWidth/2, +battHeight/2],
+	  				  [+battWidth/2, +battHeight/2],
+	  				  [+battWidth/2, -battHeight/2],
+	  				 ];
+        for (var i = 0; i < 4; i += 1) {
+        	battWrnPts[i][0] += battIconLoc[0];
+        	battWrnPts[i][1] += battIconLoc[1];
         }
+        dc.fillPolygon(battWrnPts);
     }
 
     // This method is called when the device re-enters sleep mode.
@@ -511,17 +285,3 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         isAwake = true;
     }
 }
-
-class AnalogDelegate extends WatchUi.WatchFaceDelegate {
-    // The onPowerBudgetExceeded callback is called by the system if the
-    // onPartialUpdate method exceeds the allowed power budget. If this occurs,
-    // the system will stop invoking onPartialUpdate each second, so we set the
-    // partialUpdatesAllowed flag here to let the rendering methods know they
-    // should not be rendering a second hand.
-    function onPowerBudgetExceeded(powerInfo) {
-        System.println( "Average execution time: " + powerInfo.executionTimeAverage );
-        System.println( "Allowed execution time: " + powerInfo.executionTimeLimit );
-        partialUpdatesAllowed = false;
-    }
-}
-

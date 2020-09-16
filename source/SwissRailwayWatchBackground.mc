@@ -14,8 +14,6 @@ class Background extends WatchUi.Drawable {
     }
 
     function onLayout(dc) {
-        //Clear any clip that may currently be set by the partial update
-        dc.clearClip();
     }
 
     function draw(dc) {

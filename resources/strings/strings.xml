@@ -2,9 +2,9 @@
 
     <string id="AppName">Swiss Railway Watch</string>
 
-    <string id="useAntiAliasing">Use anti-aliasing 'AA' (if available)?</string>
-    <string id="invertColors">Invert colors (swap black / white)?</string>
-    <string id="simSecSyncPulse">Simulate central sync pulse (pause seconds at zero)?</string>
-    <string id="drawDate">Show date (e.g. 'Mon 13', only if AA is true)?</string>
+    <string id="invertColors">Invert colors (swap black / white)</string>
+    <string id="simSecSyncPulse">Simulate central sync pulse (pause seconds at zero)</string>
+    <string id="drawDate">Show date (e.g. 'Mon 13')</string>
+    <string id="lowBattWarning">Show low battery warning</string>
 
 </strings>

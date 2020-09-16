@@ -1,9 +1,5 @@
 <settings>
     
-    <setting propertyKey="@Properties.useAntiAliasing" title="@Strings.useAntiAliasing">
-        <settingConfig type="boolean" />
-    </setting>
-
     <setting propertyKey="@Properties.invertColors" title="@Strings.invertColors">
         <settingConfig type="boolean" />
     </setting>
@@ -13,6 +9,10 @@
     </setting>
     
     <setting propertyKey="@Properties.drawDate" title="@Strings.drawDate">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.lowBattWarning" title="@Strings.lowBattWarning">
         <settingConfig type="boolean" />
     </setting>
 

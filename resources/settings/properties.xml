@@ -1,8 +1,8 @@
 <properties>
 
-    <property id="useAntiAliasing" type="boolean">true</property>
     <property id="invertColors" type="boolean">false</property>
     <property id="simSecSyncPulse" type="boolean">true</property>
     <property id="drawDate" type="boolean">true</property>
+    <property id="lowBattWarning" type="boolean">true</property>
 
 </properties>
