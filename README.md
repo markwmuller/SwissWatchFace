@@ -23,6 +23,8 @@ You can also invert black / white colors for a darker watch face.
 
 
 #  What’s New (Optional) (Maximum 4,000 Characters)
+**V0.2.1**
+* Added support for Venu & FR945. Note, for Venu, battery draw is likely atrocious unless you do "invert colors"
 **V0.2** 
 * Now only works with devices having anti-aliasing; removed all the code clutter from the non-anti-aliased options.
 * Added a low battery warning, kicks in at below 30% battery level.
