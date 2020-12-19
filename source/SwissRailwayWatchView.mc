@@ -5,6 +5,7 @@ TODO
 */
 
 
+using Toybox.Application;
 using Toybox.Graphics;
 using Toybox.Lang;
 using Toybox.Math;
@@ -12,7 +13,6 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 using Toybox.WatchUi;
-using Toybox.Application;
 
 //From Garmin's "Analog" example
 
@@ -41,6 +41,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var setting_simSecSyncPulse;
     var setting_drawDate;
     var setting_lowBattWarning;
+    var setting_mode24hr;
 	
     // Initialize variables for this view
     function initialize() {
@@ -140,6 +141,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
         setting_drawDate = Application.Properties.getValue("drawDate");
         setting_lowBattWarning = Application.Properties.getValue("lowBattWarning");
+        setting_mode24hr = Application.Properties.getValue("mode24hr");
 
 		dc.setAntiAlias(true);
 
@@ -168,8 +170,15 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }
         
         // Draw the hour hand. Convert it to minutes and compute the angle.
-        var hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
-        hourHandAngle = hourHandAngle / (12 * 60.0);
+        var hourHandAngle;
+        if(setting_mode24hr){
+			hourHandAngle = (((clockTime.hour % 24) * 60) + clockTime.min);
+			hourHandAngle = hourHandAngle / (24 * 60.0);
+        }else{
+			hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
+			hourHandAngle = hourHandAngle / (12 * 60.0);
+        }
+        // degrees to radians:
         hourHandAngle = hourHandAngle * Math.PI * 2;
 
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, hourHand_r1, hourHand_r2, hourHand_t));

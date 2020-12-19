@@ -16,4 +16,8 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.mode24hr" title="@Strings.mode24hr">
+        <settingConfig type="boolean" />
+    </setting>
+
 </settings>

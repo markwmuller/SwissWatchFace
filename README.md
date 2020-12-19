@@ -23,6 +23,8 @@ You can also invert black / white colors for a darker watch face.
 
 
 #  What’s New (Optional) (Maximum 4,000 Characters)
+**V0.2.2**
+* Added 24hr mode for the hour hand (set in settings)
 **V0.2.1**
 * Added support for Venu & FR945. Note, for Venu, battery draw is likely atrocious unless you do "invert colors"
 **V0.2** 
