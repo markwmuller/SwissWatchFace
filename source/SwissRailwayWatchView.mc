@@ -42,6 +42,8 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var setting_drawDate;
     var setting_lowBattWarning;
     var setting_mode24hr;
+    
+    var hasAntiAlias; //whether to use anti-aliasing
 	
     // Initialize variables for this view
     function initialize() {
@@ -69,6 +71,13 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         minuteMarker_ri = Math.round(42/50.0*dc.getWidth()/2);
         minuteMarker_ro = Math.round(46/50.0*dc.getWidth()/2);
         minuteMarker_t = Math.round(1.2/50.0*dc.getWidth()/2);
+        
+        if(Toybox.Graphics.Dc has :setAntiAlias){
+            hasAntiAlias = true;
+        }else{
+            hasAntiAlias = false;
+        }
+        
     }
 
     // This function is used to generate the coordinates of the 4 corners of the polygon
@@ -143,7 +152,10 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_lowBattWarning = Application.Properties.getValue("lowBattWarning");
         setting_mode24hr = Application.Properties.getValue("mode24hr");
 
-		dc.setAntiAlias(true);
+		if(hasAntiAlias){
+            dc.setAntiAlias(true);
+		}
+		
 
         var clockTime = System.getClockTime();
 

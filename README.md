@@ -23,6 +23,8 @@ You can also invert black / white colors for a darker watch face.
 
 
 #  What’s New (Optional) (Maximum 4,000 Characters)
+**V0.3.0**
+* Added compatibility for older watches too (SDK3.1.x) &FR745 -- these devices simply don't use the anti-aliasing features. Thanks @Wolfgang for help figuring this out
 **V0.2.2**
 * Added 24hr mode for the hour hand (set in settings)
 **V0.2.1**
