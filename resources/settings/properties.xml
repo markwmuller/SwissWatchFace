@@ -5,6 +5,5 @@
     <property id="drawDate" type="boolean">true</property>
     <property id="lowBattWarning" type="boolean">true</property>
     <property id="mode24hr" type="boolean">false</property>
-    <property id="alwaysShowSecs" type="boolean">false</property>
 
 </properties>

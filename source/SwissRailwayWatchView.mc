@@ -152,7 +152,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_drawDate = Application.Properties.getValue("drawDate");
         setting_lowBattWarning = Application.Properties.getValue("lowBattWarning");
         setting_mode24hr = Application.Properties.getValue("mode24hr");
-        setting_alwaysShowSecs = Application.Properties.getValue("alwaysShowSecs");
+        setting_alwaysShowSecs = false;//Application.Properties.getValue("alwaysShowSecs");
 
 		if(hasAntiAlias){
             dc.setAntiAlias(true);

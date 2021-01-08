@@ -7,6 +7,5 @@
     <string id="drawDate">Show date (e.g. 'Mon 13')</string>
     <string id="lowBattWarning">Show low battery warning</string>
     <string id="mode24hr">Use 24 hour mode for hour hand</string>
-    <string id="alwaysShowSecs">Always show seconds (uses more battery)</string>
 
 </strings>

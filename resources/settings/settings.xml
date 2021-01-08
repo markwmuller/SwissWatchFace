@@ -20,8 +20,4 @@
         <settingConfig type="boolean" />
     </setting>
 
-    <setting propertyKey="@Properties.alwaysShowSecs" title="@Strings.alwaysShowSecs">
-        <settingConfig type="boolean" />
-    </setting>
-
 </settings>
