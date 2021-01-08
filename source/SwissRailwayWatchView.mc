@@ -42,7 +42,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var setting_drawDate;
     var setting_lowBattWarning;
     var setting_mode24hr;
-    var setting_alwaysShowSecs;
     
     var hasAntiAlias; //whether to use anti-aliasing
 	
@@ -152,7 +151,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_drawDate = Application.Properties.getValue("drawDate");
         setting_lowBattWarning = Application.Properties.getValue("lowBattWarning");
         setting_mode24hr = Application.Properties.getValue("mode24hr");
-        setting_alwaysShowSecs = false;//Application.Properties.getValue("alwaysShowSecs");
 
 		if(hasAntiAlias){
             dc.setAntiAlias(true);
@@ -201,15 +199,10 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
 
         if(isAwake==false){
-    		//watch is in sleep mode
-    		if(setting_alwaysShowSecs==false){
-                //don't render seconds, but still draw circle at center of watch face
-                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-                dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
-                return;
-            }
-            //if we get here, it means the watch is asleep, but we want to force drawing the seconds
-            WatchUi.requestUpdate(); //pretty naive, but seems to work...
+    		//watch is in sleep mode -- don't render seconds, but still draw circle at center of watch face
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+            dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
+            return;
         }
         
         //draw second hand too
