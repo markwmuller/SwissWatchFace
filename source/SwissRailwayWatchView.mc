@@ -37,8 +37,8 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var setting_invertColors;
     var setting_simSecSyncPulse;
     var setting_drawDate;
-    var setting_lowBattWarning;
     var setting_mode24hr;
+    var setting_showBattWarning;
     var setting_showNotifications;
     
     var hasAntiAlias; //whether to use anti-aliasing
@@ -129,7 +129,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
         //hours
         for (var i = 0; i < 12; i += 1) {
-        	//todo
             dc.fillPolygon(generateTickCoordinates(screenCenterPoint, i*Math.PI*2.0/12.0, hourMarker_ri, hourMarker_ro, hourMarker_t));
         }
         //minutes
@@ -147,9 +146,9 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_invertColors = Application.Properties.getValue("invertColors");
         setting_simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
         setting_drawDate = Application.Properties.getValue("drawDate");
-        setting_lowBattWarning = Application.Properties.getValue("lowBattWarning");
+        setting_showBattWarning = Application.Properties.getValue("lowBattWarning");
         setting_mode24hr = Application.Properties.getValue("mode24hr");
-        setting_showNotifications = true; //TODO!
+        setting_showNotifications = Application.Properties.getValue("notificationsIcon");
 
 		if(hasAntiAlias){
             dc.setAntiAlias(true);
@@ -170,8 +169,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
 		drawDate(dc);
 
-		drawBatteryWarning(dc);
-		drawNotificationIcon(dc);
+		drawIcons(dc);
 		
         //draw the hour and minute hands
         if(setting_invertColors){
@@ -241,28 +239,46 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
 		dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
+    
+    function drawIcons(dc){
+        var showBattIcon = false;
+        var battIconCritical = false;
+        var showNotificationIcon = false;
+        
+		if(setting_showBattWarning){
+            var battLvl = System.getSystemStats().battery;
+            
+            showBattIcon = battLvl < 30;
+            battIconCritical = battLvl < 20;
+        }
 
-    function drawNotificationIcon(dc) {
-		if(!setting_showNotifications){
-			return;
+		if(setting_showNotifications){
+            showNotificationIcon = System.getDeviceSettings().notificationCount!=0;
 		}
 	
-		if(System.getDeviceSettings().notificationCount==0){
-			//no notifications
-            return;
-		}
-		
+		if(showBattIcon){
+            drawBatteryWarningIcon(dc, battIconCritical, showNotificationIcon);
+        }
+        if(showNotificationIcon){
+            drawNotificationIcon(dc, showBattIcon);
+        }
+    }
+
+    function drawNotificationIcon(dc, shift) {
         if(setting_invertColors){
             dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         }else{
             dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         }
 		
-		var iconLoc = [(screenCenterPoint[0]*7)/5, screenCenterPoint[1]];
-		
+		var iconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
 		//draw a "speech bubble"
-		var iconWidth = screenCenterPoint[0]/6;
+		var iconWidth = screenCenterPoint[0]/5;
 		var iconHeight = (iconWidth*4) / 5;
+
+		if(shift){
+            iconLoc[0] -= (iconWidth*2)/3;
+		}
 		
 		dc.fillRoundedRectangle(iconLoc[0]-iconWidth/2,
 								iconLoc[1]-iconHeight/2,
@@ -277,18 +293,8 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         dc.fillPolygon(iconPts);
     }
 
-    function drawBatteryWarning(dc) {
-		if(!setting_lowBattWarning){
-			return;
-		}
-	
-		var battLvl = System.getSystemStats().battery;
-		
-		if(battLvl > 30){
-			//plenty of battery
-			return;
-		}
-		if(battLvl < 20){
+    function drawBatteryWarningIcon(dc, critical, shift) {
+		if(critical){
 			//very low battery, show in red
 			dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
 		} else {
@@ -302,7 +308,12 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 		var iconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
 		
 		var iconWidth = screenCenterPoint[0]/5;
-		var iconHeight = (iconWidth*2) / 3;
+		var iconHeight = (iconWidth*3) / 5;
+
+		if(shift){
+            iconLoc[0] += (iconWidth*2)/3;
+		}
+		
 		//main part of battery
 		dc.fillRectangle(iconLoc[0]-iconWidth/2,
 						 iconLoc[1]-iconHeight/2,

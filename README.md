@@ -14,7 +14,7 @@ An open source analog watch that is in the style of the clocks you'll find at Sw
 
 In the settings, you can emulate a synchronization pulse, where the second hand runs a little fast, and then pauses at the 59 second mark before the minutes advance (emulating a central accurate clock sending a synchronization pulse). 
 
-A warning will show if battery drops below 30% (you can disable this if you prefer). 
+A warning will show if battery drops below 30% (you can disable this if you prefer). It'll also show you a notification icon (can also be disabled).
 
 The date is printed, but that can be disabled too. 
 
@@ -23,6 +23,8 @@ You can also invert black / white colors for a darker watch face.
 
 
 #  What’s New (Optional) (Maximum 4,000 Characters)
+**V0.4.0**
+* Added a notification icon, with setting to disable if you don't want.
 **V0.3.2**
 * Bug fix
 **V0.3.0**

@@ -4,6 +4,7 @@
     <property id="simSecSyncPulse" type="boolean">true</property>
     <property id="drawDate" type="boolean">true</property>
     <property id="lowBattWarning" type="boolean">true</property>
+    <property id="notificationsIcon" type="boolean">true</property>
     <property id="mode24hr" type="boolean">false</property>
 
 </properties>
