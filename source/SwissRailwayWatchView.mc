@@ -1,7 +1,4 @@
 /* (c) 2020 Mark W. Mueller
-
-TODO
-1. Re-enable setting to always show seconds?
 */
 
 
@@ -42,6 +39,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var setting_drawDate;
     var setting_lowBattWarning;
     var setting_mode24hr;
+    var setting_showNotifications;
     
     var hasAntiAlias; //whether to use anti-aliasing
 	
@@ -151,6 +149,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_drawDate = Application.Properties.getValue("drawDate");
         setting_lowBattWarning = Application.Properties.getValue("lowBattWarning");
         setting_mode24hr = Application.Properties.getValue("mode24hr");
+        setting_showNotifications = true; //TODO!
 
 		if(hasAntiAlias){
             dc.setAntiAlias(true);
@@ -172,6 +171,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 		drawDate(dc);
 
 		drawBatteryWarning(dc);
+		drawNotificationIcon(dc);
 		
         //draw the hour and minute hands
         if(setting_invertColors){
@@ -242,6 +242,41 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 		dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
+    function drawNotificationIcon(dc) {
+		if(!setting_showNotifications){
+			return;
+		}
+	
+		if(System.getDeviceSettings().notificationCount==0){
+			//no notifications
+            return;
+		}
+		
+        if(setting_invertColors){
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        }else{
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        }
+		
+		var iconLoc = [(screenCenterPoint[0]*7)/5, screenCenterPoint[1]];
+		
+		//draw a "speech bubble"
+		var iconWidth = screenCenterPoint[0]/6;
+		var iconHeight = (iconWidth*4) / 5;
+		
+		dc.fillRoundedRectangle(iconLoc[0]-iconWidth/2,
+								iconLoc[1]-iconHeight/2,
+								iconWidth,
+								(iconHeight*2)/3,
+								iconWidth/5);
+								
+		//points of the speech bubble point, relative to icon centre
+	  	var iconPts = [[iconLoc[0]-iconWidth/4, iconLoc[1]+0],
+	  				   [iconLoc[0]+iconWidth/3, iconLoc[1]+iconHeight/2],
+	  				   [iconLoc[0]+iconWidth/3, iconLoc[1]+0]];
+        dc.fillPolygon(iconPts);
+    }
+
     function drawBatteryWarning(dc) {
 		if(!setting_lowBattWarning){
 			return;
@@ -264,31 +299,20 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 			}
 		}
 		
-		var battIconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
+		var iconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
 		
-		var battWidth = screenCenterPoint[0]/4;
-		var battHeight = (battWidth*2) / 3;
-	  	var battWrnPts = [[-battWidth/2, -battHeight/2],
-	  					  [-battWidth/2, +battHeight/2],
-	  					  [+(battWidth*4)/10, +battHeight/2],
-	  					  [+(battWidth*4)/10, -battHeight/2],
-	  					 ];
-        for (var i = 0; i < 4; i += 1) {
-        	battWrnPts[i][0] += battIconLoc[0];
-        	battWrnPts[i][1] += battIconLoc[1];
-        }
-        dc.fillPolygon(battWrnPts);
-        battHeight = (battHeight*3)/5;
-	  	battWrnPts = [[-battWidth/2, -battHeight/2],
-	  				  [-battWidth/2, +battHeight/2],
-	  				  [+battWidth/2, +battHeight/2],
-	  				  [+battWidth/2, -battHeight/2],
-	  				 ];
-        for (var i = 0; i < 4; i += 1) {
-        	battWrnPts[i][0] += battIconLoc[0];
-        	battWrnPts[i][1] += battIconLoc[1];
-        }
-        dc.fillPolygon(battWrnPts);
+		var iconWidth = screenCenterPoint[0]/5;
+		var iconHeight = (iconWidth*2) / 3;
+		//main part of battery
+		dc.fillRectangle(iconLoc[0]-iconWidth/2,
+						 iconLoc[1]-iconHeight/2,
+						 (iconWidth*8)/10,
+						 iconHeight);
+		//tip of battery
+		dc.fillRectangle(iconLoc[0]-iconWidth/2,
+						 iconLoc[1]-(iconHeight*3)/10,
+						 iconWidth,
+						 (iconHeight*3)/5);
     }
 
     // This method is called when the device re-enters sleep mode.
