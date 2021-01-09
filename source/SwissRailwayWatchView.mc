@@ -40,6 +40,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var setting_mode24hr;
     var setting_showBattWarning;
     var setting_showNotifications;
+    var setting_alwaysShowSeconds;
     
     var hasAntiAlias; //whether to use anti-aliasing
 	
@@ -141,6 +142,13 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }
     }
 
+    function onPartialUpdate(dc) {
+    	if(!setting_alwaysShowSeconds){
+            return;
+    	}
+    	onUpdate(dc);
+    }
+
     function onUpdate(dc) {
 		//read settings
         setting_invertColors = Application.Properties.getValue("invertColors");
@@ -149,6 +157,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_showBattWarning = Application.Properties.getValue("lowBattWarning");
         setting_mode24hr = Application.Properties.getValue("mode24hr");
         setting_showNotifications = Application.Properties.getValue("notificationsIcon");
+        setting_alwaysShowSeconds = Application.Properties.getValue("alwaysShowSeconds");
 
 		if(hasAntiAlias){
             dc.setAntiAlias(true);
@@ -196,7 +205,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         var minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
 
-        if(isAwake==false){
+        if(isAwake==false and setting_alwaysShowSeconds==false){
     		//watch is in sleep mode -- don't render seconds, but still draw circle at center of watch face
             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
             dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand

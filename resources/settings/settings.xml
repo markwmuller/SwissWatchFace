@@ -24,4 +24,8 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.alwaysShowSeconds" title="@Strings.alwaysShowSeconds">
+        <settingConfig type="boolean" />
+    </setting>
+
 </settings>
