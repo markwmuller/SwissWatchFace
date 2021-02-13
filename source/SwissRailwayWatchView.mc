@@ -1,7 +1,6 @@
 /* (c) 2020 Mark W. Mueller
 */
 
-
 using Toybox.Application;
 using Toybox.Graphics;
 using Toybox.Lang;
@@ -77,6 +76,8 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
             hasAntiAlias = false;
         }
         
+        readSettings();
+        
     }
 
     // This function is used to generate the coordinates of the 4 corners of the polygon
@@ -143,14 +144,13 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     }
 
     function onPartialUpdate(dc) {
-    	if(!setting_alwaysShowSeconds){
+        if(!setting_alwaysShowSeconds){
             return;
-    	}
-    	onUpdate(dc);
+        }
+        onUpdate(dc);
     }
-
-    function onUpdate(dc) {
-		//read settings
+    
+    function readSettings(){
         setting_invertColors = Application.Properties.getValue("invertColors");
         setting_simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
         setting_drawDate = Application.Properties.getValue("drawDate");
@@ -158,10 +158,17 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_mode24hr = Application.Properties.getValue("mode24hr");
         setting_showNotifications = Application.Properties.getValue("notificationsIcon");
         setting_alwaysShowSeconds = Application.Properties.getValue("alwaysShowSeconds");
+    }
+    
+    function onUpdate(dc) {
+    	if(isAwake){
+            //read settings
+            readSettings();
+        }
 
-		if(hasAntiAlias){
+        if(hasAntiAlias){
             dc.setAntiAlias(true);
-		}
+        }
 
         var clockTime = System.getClockTime();
 
@@ -176,10 +183,10 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         // Draw the tick marks around the edges of the screen
         drawHashMarks(dc);
 
-		drawDate(dc);
+        drawDate(dc);
 
-		drawIcons(dc);
-		
+        drawIcons(dc);
+    
         //draw the hour and minute hands
         if(setting_invertColors){
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
@@ -190,11 +197,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         // Draw the hour hand. Convert it to minutes and compute the angle.
         var hourHandAngle;
         if(setting_mode24hr){
-			hourHandAngle = (((clockTime.hour % 24) * 60) + clockTime.min);
-			hourHandAngle = hourHandAngle / (24 * 60.0);
+            hourHandAngle = (((clockTime.hour % 24) * 60) + clockTime.min);
+            hourHandAngle = hourHandAngle / (24 * 60.0);
         }else{
-			hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
-			hourHandAngle = hourHandAngle / (12 * 60.0);
+            hourHandAngle = (((clockTime.hour % 12) * 60) + clockTime.min);
+            hourHandAngle = hourHandAngle / (12 * 60.0);
         }
         // degrees to radians:
         hourHandAngle = hourHandAngle * Math.PI * 2;
@@ -206,7 +213,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
 
         if(isAwake==false and setting_alwaysShowSeconds==false){
-    		//watch is in sleep mode -- don't render seconds, but still draw circle at center of watch face
+            //watch is in sleep mode -- don't render seconds, but still draw circle at center of watch face
             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
             dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
             return;
@@ -216,8 +223,9 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         var sbb_seconds = clockTime.sec;
         if(setting_simSecSyncPulse == true){
             sbb_seconds *= 62.0/60.0;
-            if(sbb_seconds > 59.0){
-              sbb_seconds = 59;
+            //we use 58.9, because that's the last step before it hits a minute
+            if(sbb_seconds > 58.9){
+              sbb_seconds = 58.9;
             }
         }
         var secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
@@ -229,43 +237,43 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         dc.fillPolygon(secondHandPoints);
         dc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
         //circle at centre of watch face
-        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
+        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], (secondHand_t*11)/10);//10% thicker than hand
     }
     
     function drawDate(dc) {
-		if(!setting_drawDate){
-			return;
-		}
-	
-		var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-		var dateStr = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
+        if(!setting_drawDate){
+            return;
+        }
 
-		if(setting_invertColors){
-			dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-		}else{
-			dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-		}
+        var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+        var dateStr = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
 
-		dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+        if(setting_invertColors){
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        }else{
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        }
+
+        dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
     
     function drawIcons(dc){
         var showBattIcon = false;
         var battIconCritical = false;
         var showNotificationIcon = false;
-        
-		if(setting_showBattWarning){
+
+        if(setting_showBattWarning){
             var battLvl = System.getSystemStats().battery;
-            
+
             showBattIcon = battLvl < 30;
             battIconCritical = battLvl < 20;
         }
 
-		if(setting_showNotifications){
+        if(setting_showNotifications){
             showNotificationIcon = System.getDeviceSettings().notificationCount!=0;
-		}
-	
-		if(showBattIcon){
+        }
+
+        if(showBattIcon){
             drawBatteryWarningIcon(dc, battIconCritical, showNotificationIcon);
         }
         if(showNotificationIcon){
@@ -279,67 +287,69 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }else{
             dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         }
-		
-		var iconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
-		//draw a "speech bubble"
-		var iconWidth = screenCenterPoint[0]/5;
-		var iconHeight = (iconWidth*4) / 5;
 
-		if(shift){
+        var iconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
+        //draw a "speech bubble"
+        var iconWidth = screenCenterPoint[0]/5;
+        var iconHeight = (iconWidth*4) / 5;
+
+        if(shift){
             iconLoc[0] -= (iconWidth*2)/3;
-		}
-		
-		dc.fillRoundedRectangle(iconLoc[0]-iconWidth/2,
-								iconLoc[1]-iconHeight/2,
-								iconWidth,
-								(iconHeight*2)/3,
-								iconWidth/5);
-								
-		//points of the speech bubble point, relative to icon centre
-	  	var iconPts = [[iconLoc[0]-iconWidth/4, iconLoc[1]+0],
-	  				   [iconLoc[0]+iconWidth/3, iconLoc[1]+iconHeight/2],
-	  				   [iconLoc[0]+iconWidth/3, iconLoc[1]+0]];
+        }
+
+        dc.fillRoundedRectangle(iconLoc[0]-iconWidth/2,
+        iconLoc[1]-iconHeight/2,
+        iconWidth,
+        (iconHeight*2)/3,
+        iconWidth/5);
+
+        //points of the speech bubble point, relative to icon centre
+        var iconPts = [[iconLoc[0]-iconWidth/4, iconLoc[1]+0],
+                        [iconLoc[0]+iconWidth/3, iconLoc[1]+iconHeight/2],
+                        [iconLoc[0]+iconWidth/3, iconLoc[1]+0]];
         dc.fillPolygon(iconPts);
     }
 
     function drawBatteryWarningIcon(dc, critical, shift) {
-		if(critical){
-			//very low battery, show in red
-			dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-		} else {
-			if(setting_invertColors){
-				dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-			}else{
-				dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-			}
-		}
-		
-		var iconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
-		
-		var iconWidth = screenCenterPoint[0]/5;
-		var iconHeight = (iconWidth*3) / 5;
+        if(critical){
+            //very low battery, show in red
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+        } else {
+            if(setting_invertColors){
+                dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            }else{
+                dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            }
+        }
+        
+        var iconLoc = [screenCenterPoint[0], (screenCenterPoint[1]*3)/5];
+        
+        var iconWidth = screenCenterPoint[0]/5;
+        var iconHeight = (iconWidth*3) / 5;
 
-		if(shift){
+        if(shift){
             iconLoc[0] += (iconWidth*2)/3;
-		}
-		
-		//main part of battery
-		dc.fillRectangle(iconLoc[0]-iconWidth/2,
-						 iconLoc[1]-iconHeight/2,
-						 (iconWidth*8)/10,
-						 iconHeight);
-		//tip of battery
-		dc.fillRectangle(iconLoc[0]-iconWidth/2,
-						 iconLoc[1]-(iconHeight*3)/10,
-						 iconWidth,
-						 (iconHeight*3)/5);
+        }
+        
+        //main part of battery
+        dc.fillRectangle(iconLoc[0]-iconWidth/2,
+                 iconLoc[1]-iconHeight/2,
+                 (iconWidth*8)/10,
+                 iconHeight);
+        //tip of battery
+        dc.fillRectangle(iconLoc[0]-iconWidth/2,
+                 iconLoc[1]-(iconHeight*3)/10,
+                 iconWidth,
+                 (iconHeight*3)/5);
     }
 
     // This method is called when the device re-enters sleep mode.
     // Set the isAwake flag to let onUpdate know it should stop rendering the second hand.
     function onEnterSleep() {
         isAwake = false;
-        WatchUi.requestUpdate();
+        if(!setting_alwaysShowSeconds){
+            WatchUi.requestUpdate();
+        }
     }
 
     // This method is called when the device exits sleep mode.
