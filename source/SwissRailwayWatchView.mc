@@ -1,4 +1,4 @@
-/* (c) 2020 Mark W. Mueller
+/* (c) 2021 Mark W. Mueller
 */
 
 using Toybox.Application;
@@ -13,7 +13,12 @@ using Toybox.WatchUi;
 //From Garmin's "Analog" example
 
 class SwissRailwayWatchView extends WatchUi.WatchFace {
-    var isAwake;
+    var isAwake = true;
+    // for always drawing seconds:
+    var offscreenBuffer;
+    var curClip;
+    var doFullScreenRefresh;
+    var partialUpdatesAllowed;
     // define watch geometry:
     var screenCenterPoint;
     var hourHand_r1; 
@@ -32,6 +37,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var minuteMarker_ri;
     var minuteMarker_ro;
     var minuteMarker_t;
+    var font;
     //settings:
     var setting_invertColors;
     var setting_simSecSyncPulse;
@@ -46,11 +52,32 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     // Initialize variables for this view
     function initialize() {
         WatchFace.initialize();
-
+        doFullScreenRefresh = true;
+        partialUpdatesAllowed = ( Toybox.WatchUi.WatchFace has :onPartialUpdate );
     }
 
     // Configure the layout of the watchface for this device
     function onLayout(dc) {
+        // If this device supports BufferedBitmap, allocate the buffers we use for drawing
+        if(Toybox.Graphics has :BufferedBitmap) {
+            offscreenBuffer = new Graphics.BufferedBitmap({
+                :width=>dc.getWidth(),
+                :height=>dc.getHeight(),
+                :palette=> [
+                    Graphics.COLOR_BLACK,
+                    Graphics.COLOR_WHITE,
+                    Graphics.COLOR_RED,
+                    Graphics.COLOR_LT_GRAY,
+                    Graphics.COLOR_DK_GRAY,
+                ]
+            });
+        } else {
+            offscreenBuffer = null;
+        }
+
+        curClip = null;
+    
+    	//compute geometry
         screenCenterPoint = [dc.getWidth()/2, dc.getHeight()/2];
         hourHand_r1 = Math.round(30/50.0*dc.getWidth()/2);
         hourHand_r2 = Math.round(11/50.0*dc.getWidth()/2);
@@ -75,9 +102,12 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }else{
             hasAntiAlias = false;
         }
+        //TODO FIXME
+        hasAntiAlias = false;
         
         readSettings();
         
+        font = WatchUi.loadResource(Rez.Fonts.smallJannScript);
     }
 
     // This function is used to generate the coordinates of the 4 corners of the polygon
@@ -142,13 +172,6 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
             }
         }
     }
-
-    function onPartialUpdate(dc) {
-        if(!setting_alwaysShowSeconds){
-            return;
-        }
-        onUpdate(dc);
-    }
     
     function readSettings(){
         setting_invertColors = Application.Properties.getValue("invertColors");
@@ -160,38 +183,51 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_alwaysShowSeconds = Application.Properties.getValue("alwaysShowSeconds");
     }
     
+    /* Called every second in full power mode
+     * Called every minute in low power mode
+     */
     function onUpdate(dc) {
-    	if(isAwake){
-            //read settings
-            readSettings();
-        }
+        //read settings
+        readSettings();
 
-        if(hasAntiAlias){
-            dc.setAntiAlias(true);
+        // We always want to refresh the full screen when we get a regular onUpdate call.
+        doFullScreenRefresh = true;
+
+        var targetDc = null;
+        
+        if(hasAntiAlias and isAwake){
+        	targetDc = dc;
+        }else{
+            //reset any clipping regions
+            dc.clearClip();
+            curClip = null;
+            // If we have an offscreen buffer that we are using to draw the background,
+            // set the draw context of that buffer as our target.
+            targetDc = offscreenBuffer.getDc();
         }
 
         var clockTime = System.getClockTime();
 
         // Fill the entire background with Black.
         if(setting_invertColors){
-            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
+            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
         } else { 
-            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         }
-        dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
+        targetDc.fillRectangle(0, 0, targetDc.getWidth(), targetDc.getHeight());
 
         // Draw the tick marks around the edges of the screen
-        drawHashMarks(dc);
+        drawHashMarks(targetDc);
 
-        drawDate(dc);
+        drawDate(targetDc);
 
-        drawIcons(dc);
+        drawIcons(targetDc);
     
         //draw the hour and minute hands
         if(setting_invertColors){
-            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+            targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         }else{
-            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
         }
         
         // Draw the hour hand. Convert it to minutes and compute the angle.
@@ -206,39 +242,137 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         // degrees to radians:
         hourHandAngle = hourHandAngle * Math.PI * 2;
 
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, hourHand_r1, hourHand_r2, hourHand_t));
+        targetDc.fillPolygon(generateHandCoordinates(screenCenterPoint, hourHandAngle, hourHand_r1, hourHand_r2, hourHand_t));
 
         // Draw the minute hand.
         var minuteHandAngle = (clockTime.min / 60.0) * Math.PI * 2;
-        dc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
+        targetDc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
 
-        if(isAwake==false and setting_alwaysShowSeconds==false){
-            //watch is in sleep mode -- don't render seconds, but still draw circle at center of watch face
-            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-            dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
-            return;
-        }
+        if(isAwake and hasAntiAlias){
+            //draw second hand, fully AA
+            var sbb_seconds = clockTime.sec;
+            if(setting_simSecSyncPulse == true){
+                sbb_seconds *= 62.0/60.0;
+                //we use 58.9, because that's the last step before it hits a minute
+                if(sbb_seconds > 58.9){
+                  sbb_seconds = 58.9;
+                }
+            }
+            var secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
+                
+            var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
+            var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
+
+            targetDc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+            targetDc.fillPolygon(secondHandPoints);
+            targetDc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
+            //circle at centre of watch face
+            targetDc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], (secondHand_t*11)/10);//10% thicker than hand
         
-        //draw second hand too
-        var sbb_seconds = clockTime.sec;
-        if(setting_simSecSyncPulse == true){
-            sbb_seconds *= 62.0/60.0;
-            //we use 58.9, because that's the last step before it hits a minute
-            if(sbb_seconds > 58.9){
-              sbb_seconds = 58.9;
+        }else {
+            //draw what we've rendered so far:
+            drawOffscreenBuffer(dc);
+            if(isAwake or setting_alwaysShowSeconds){
+            	//do a partial update for seconds (not AA)
+                onPartialUpdate(dc);
+            }else{
+                //don't render seconds, but still draw circle at center of watch face
+                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+                dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
             }
         }
-        var secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
+
+        // Output the offscreen buffers to the main display if required.
+        doFullScreenRefresh = false;
+    }
+
+    // called for the first 59 seconds of every minute in low power mode.
+    function onPartialUpdate( dc ) {
+        // If we're not doing a full screen refresh we need to re-draw the background
+        // before drawing the updated second hand position. Note this will only re-draw
+        // the background in the area specified by the previously computed clipping region.
+        if(!doFullScreenRefresh) {
+			//goes here in "low power mode"
+            drawOffscreenBuffer(dc);
+        }
+        
+        var clockTime = System.getClockTime();
+        var sbb_seconds = clockTime.sec;
+        var secondHand;
+        if(setting_simSecSyncPulse == true){
+            sbb_seconds *= 62.0/60.0;
+            if(sbb_seconds > 59.0){
+              sbb_seconds = 59;
+            }
+        }
+        secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
             
         var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
         var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
 
+
+        // Update the cliping rectangle to the new location of the second hand.
+        var bboxPoints = [[secondHandPoints[0][0], secondHandPoints[0][1]],
+        				  [secondHandPoints[1][0], secondHandPoints[1][1]], 
+        				  [secondHandPoints[2][0], secondHandPoints[2][1]], 
+        				  [secondHandPoints[3][0], secondHandPoints[3][1]],
+        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
+        				  [secondCircleCenter[0] - secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r],
+        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] - secondHand_ball_r],
+        				  [secondCircleCenter[0] + secondHand_ball_r, secondCircleCenter[1] + secondHand_ball_r]
+        				  ];
+        				  
+        curClip = getBoundingBox( bboxPoints );
+        var bboxWidth = curClip[1][0] - curClip[0][0] + 1;
+        var bboxHeight = curClip[1][1] - curClip[0][1] + 1;
+        dc.setClip(curClip[0][0], curClip[0][1], bboxWidth, bboxHeight);
+
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-        dc.fillPolygon(secondHandPoints);
+        dc.fillPolygon(secondHandPoints );
         dc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
         //circle at centre of watch face
-        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], (secondHand_t*11)/10);//10% thicker than hand
+        dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
     }
+
+    // Compute a bounding box from the passed in points
+    function getBoundingBox( points ) {
+        var min = [9999,9999];
+        var max = [0,0];
+
+        for (var i = 0; i < points.size(); ++i) {
+            if(points[i][0] < min[0]) {
+                min[0] = points[i][0];
+            }
+
+            if(points[i][1] < min[1]) {
+                min[1] = points[i][1];
+            }
+
+            if(points[i][0] > max[0]) {
+                max[0] = points[i][0];
+            }
+
+            if(points[i][1] > max[1]) {
+                max[1] = points[i][1];
+            }
+        }
+
+        return [min, max];
+    }
+
+    // Draw the watch face background
+    // onUpdate uses this method to transfer newly rendered Buffered Bitmaps
+    // to the main display.
+    // onPartialUpdate uses this to blank the second hand from the previous
+    // second before outputing the new one.
+    function drawOffscreenBuffer(dc) {
+        //If we have an offscreen buffer that has been written to
+        //draw it to the screen.
+        if( null != offscreenBuffer ) {
+            dc.drawBitmap(0, 0, offscreenBuffer);
+        }
+    }
+
     
     function drawDate(dc) {
         if(!setting_drawDate){
@@ -254,7 +388,9 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
             dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         }
 
-        dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+		//TODO Fix font
+        dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, font, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+//        dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
     
     function drawIcons(dc){
@@ -347,9 +483,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     // Set the isAwake flag to let onUpdate know it should stop rendering the second hand.
     function onEnterSleep() {
         isAwake = false;
-        if(!setting_alwaysShowSeconds){
-            WatchUi.requestUpdate();
-        }
+        WatchUi.requestUpdate();
     }
 
     // This method is called when the device exits sleep mode.
