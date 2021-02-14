@@ -1,5 +1,6 @@
 <resources>
     <fonts>
-        <font id="smallJannScript" filename="fonts/smallJannScript.fnt" antialias="false" />
+        <font id="openSansReg" filename="fonts/OpenSansReg.fnt" antialias="false" />
+        <font id="openSansRegAA" filename="fonts/OpenSansReg.fnt" antialias="true" /> 
     </fonts>
 </resources>

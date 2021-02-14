@@ -24,13 +24,7 @@
         <settingConfig type="boolean" />
     </setting>
 
-    <setting propertyKey="@Properties.bugsWarning" title="@Strings.bugsWarning">
-        <settingConfig type="list">
-          <listEntry value="1">@Strings.bugsWarningWarning</listEntry>
-        </settingConfig>    
-    </setting>
-
-    <setting propertyKey="@Properties.alwaysShowSeconds" title="@Strings.alwaysShowSeconds">
+    <setting propertyKey="@Properties.powerSaver" title="@Strings.powerSaver">
         <settingConfig type="boolean" />
     </setting>
 

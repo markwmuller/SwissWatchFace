@@ -38,6 +38,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var minuteMarker_ro;
     var minuteMarker_t;
     var font;
+    var fontAA;
     //settings:
     var setting_invertColors;
     var setting_simSecSyncPulse;
@@ -45,7 +46,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var setting_mode24hr;
     var setting_showBattWarning;
     var setting_showNotifications;
-    var setting_alwaysShowSeconds;
+    var setting_powerSaver;
     
     var hasAntiAlias; //whether to use anti-aliasing
 	
@@ -102,12 +103,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }else{
             hasAntiAlias = false;
         }
-        //TODO FIXME
-        hasAntiAlias = false;
         
         readSettings();
         
-        font = WatchUi.loadResource(Rez.Fonts.smallJannScript);
+        font = WatchUi.loadResource(Rez.Fonts.openSansReg);
+        fontAA = WatchUi.loadResource(Rez.Fonts.openSansRegAA);
     }
 
     // This function is used to generate the coordinates of the 4 corners of the polygon
@@ -180,7 +180,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         setting_showBattWarning = Application.Properties.getValue("lowBattWarning");
         setting_mode24hr = Application.Properties.getValue("mode24hr");
         setting_showNotifications = Application.Properties.getValue("notificationsIcon");
-        setting_alwaysShowSeconds = Application.Properties.getValue("alwaysShowSeconds");
+        setting_powerSaver = Application.Properties.getValue("powerSaver");
     }
     
     /* Called every second in full power mode
@@ -195,8 +195,13 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
         var targetDc = null;
         
-        if(hasAntiAlias and isAwake){
+        var doAntiAlias = hasAntiAlias and isAwake;
+        
+        if(doAntiAlias){
         	targetDc = dc;
+            dc.clearClip();
+            curClip = null;
+        	dc.setAntiAlias(true);
         }else{
             //reset any clipping regions
             dc.clearClip();
@@ -219,7 +224,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         // Draw the tick marks around the edges of the screen
         drawHashMarks(targetDc);
 
-        drawDate(targetDc);
+        drawDate(targetDc, doAntiAlias);
 
         drawIcons(targetDc);
     
@@ -272,7 +277,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }else {
             //draw what we've rendered so far:
             drawOffscreenBuffer(dc);
-            if(isAwake or setting_alwaysShowSeconds){
+            if(isAwake or !setting_powerSaver){
             	//do a partial update for seconds (not AA)
                 onPartialUpdate(dc);
             }else{
@@ -374,7 +379,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     }
 
     
-    function drawDate(dc) {
+    function drawDate(dc, doAntiAlias) {
         if(!setting_drawDate){
             return;
         }
@@ -389,7 +394,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }
 
 		//TODO Fix font
-        dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, font, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+		if(doAntiAlias){
+            dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, fontAA, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+		}else{
+            dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, font, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+		}
 //        dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
     

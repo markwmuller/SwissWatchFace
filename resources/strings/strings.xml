@@ -8,8 +8,6 @@
     <string id="lowBattWarning">Show low battery warning</string>
     <string id="notificationsIcon">Show notification icon</string>
     <string id="mode24hr">Use 24 hour mode for hour hand</string>
-    <string id="bugsWarning">Experimental setting, may not work:</string>
-    <string id="bugsWarningWarning">most watches will experience bugs with the below</string>
-    <string id="alwaysShowSeconds">Always show second hand (huge battery penalty!)</string>
+    <string id="powerSaver">Hide seconds hand to save power</string>
 
 </strings>
