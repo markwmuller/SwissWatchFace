@@ -213,13 +213,15 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
         var clockTime = System.getClockTime();
 
-        // Fill the entire background with Black.
-        if(setting_invertColors){
-            targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
-        } else { 
-            targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        }
+		//make back black (for non-round screens)
+        targetDc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
         targetDc.fillRectangle(0, 0, targetDc.getWidth(), targetDc.getHeight());
+        
+        // Fill the watchface as a white circle (only if using regular colorscheme)
+        if(!setting_invertColors){
+            targetDc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            targetDc.fillCircle(targetDc.getWidth()/2, targetDc.getHeight()/2, targetDc.getWidth()/2);
+        }
 
         // Draw the tick marks around the edges of the screen
         drawHashMarks(targetDc);
