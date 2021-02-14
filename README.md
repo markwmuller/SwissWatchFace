@@ -14,17 +14,18 @@ An open source analog watch that is in the style of the clocks you'll find at Sw
 
 In the settings, you can emulate a synchronization pulse, where the second hand runs a little fast, and then pauses at the 59 second mark before the minutes advance (emulating a central accurate clock sending a synchronization pulse). 
 
-Note that the seconds hand will disappear when you're not looking at the watch (Garmin's "low power mode"). The hand should re-appear when you glance at the watch. 
-
 A warning will show if battery drops below 30%, turning red for less than 20% (you can disable the icon you prefer). It'll also show you a notification icon (can also be disabled).
 
 The date is printed, but that can be disabled too. 
 
 You can also invert black / white colors for a darker watch face. 
 
-Note that there is now an experimental setting to force always showing the seconds hand, but this will cause MUCH higher battery usage, so use with caution. This is also buggy, there appears to be some background process which interferes with updating every second like this, because it is relatively battery/compute intensive. Strongly recommend to leave this "off".
+Note that Garmin's "low power mode" kicks in after about 10sec, and then the watch face will become a little uglier (anti-aliasing will be turned off), but the seconds can still be shown continuously. 
 
 #  What’s New (Optional) (Maximum 4,000 Characters)
+V0.5.0
+* Seconds hand should now always be shown, unless you select "power saver" (see description for details). 
+* Watches with non-round faces should now draw a nice circle for watch face. 
 V0.4.1
 * Made note that always updating seconds hand is buggy
 * Minor improvements

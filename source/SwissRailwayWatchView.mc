@@ -279,14 +279,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         }else {
             //draw what we've rendered so far:
             drawOffscreenBuffer(dc);
-            if(isAwake or !setting_powerSaver){
-            	//do a partial update for seconds (not AA)
-                onPartialUpdate(dc);
-            }else{
-                //don't render seconds, but still draw circle at center of watch face
-                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-                dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
-            }
+            onPartialUpdate(dc);
         }
 
         // Output the offscreen buffers to the main display if required.
@@ -302,6 +295,14 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 			//goes here in "low power mode"
             drawOffscreenBuffer(dc);
         }
+
+        if(!isAwake and setting_powerSaver){
+       		//don't draw seconds
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+            dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
+        	return;
+        }
+        	
         
         var clockTime = System.getClockTime();
         var sbb_seconds = clockTime.sec;
