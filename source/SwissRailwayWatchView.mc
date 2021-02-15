@@ -68,6 +68,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
                     Graphics.COLOR_BLACK,
                     Graphics.COLOR_WHITE,
                     Graphics.COLOR_RED,
+                    Graphics.COLOR_ORANGE,
                     Graphics.COLOR_LT_GRAY,
                     Graphics.COLOR_DK_GRAY,
                 ]
@@ -270,7 +271,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
             var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
             var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
 
-            targetDc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+			if(setting_invertColors){
+                targetDc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_ORANGE);
+			}else{
+                targetDc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+			}
             targetDc.fillPolygon(secondHandPoints);
             targetDc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
             //circle at centre of watch face
@@ -298,7 +303,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
         if(!isAwake and setting_powerSaver){
        		//don't draw seconds
-            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+			if(setting_invertColors){
+                dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_ORANGE);
+			}else{
+                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+			}
             dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
         	return;
         }
@@ -335,7 +344,11 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         var bboxHeight = curClip[1][1] - curClip[0][1] + 1;
         dc.setClip(curClip[0][0], curClip[0][1], bboxWidth, bboxHeight);
 
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+        if(setting_invertColors){
+            dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_ORANGE);
+        }else{
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+        }
         dc.fillPolygon(secondHandPoints );
         dc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
         //circle at centre of watch face
