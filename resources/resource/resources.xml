@@ -2,5 +2,7 @@
     <fonts>
         <font id="openSansReg" filename="fonts/OpenSansReg.fnt" antialias="false" />
         <font id="openSansRegAA" filename="fonts/OpenSansReg.fnt" antialias="true" /> 
+        <font id="openSansRegLarge" filename="fonts/OpenSansRegLarge.fnt" antialias="false" />
+        <font id="openSansRegAALarge" filename="fonts/OpenSansRegLarge.fnt" antialias="true" /> 
     </fonts>
 </resources>

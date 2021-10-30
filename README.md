@@ -23,6 +23,11 @@ You can also invert black / white colors for a darker watch face.
 Note that Garmin's "low power mode" kicks in after about 10sec, and then the watch face will become a little uglier (anti-aliasing will be turned off), but the seconds can still be shown continuously. There is a second to subsequently hide the seconds, which should save some power.
 
 #  What’s New (Optional) (Maximum 4,000 Characters)
+V0.6.0
+* New devices (Venu 2)
+* Added option to always hide seconds hand
+* Added option to force date language to English or German (if it's not rendering e.g. in Japanese, try this)
+* Added options for better visibility to watch
 V0.5.1
 * Optimized colors when in "invert colors" mode for easier view. 
 V0.5.0

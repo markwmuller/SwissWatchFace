@@ -8,10 +8,6 @@
         <settingConfig type="boolean" />
     </setting>
     
-    <setting propertyKey="@Properties.drawDate" title="@Strings.drawDate">
-        <settingConfig type="boolean" />
-    </setting>
-
     <setting propertyKey="@Properties.lowBattWarning" title="@Strings.lowBattWarning">
         <settingConfig type="boolean" />
     </setting>
@@ -24,7 +20,28 @@
         <settingConfig type="boolean" />
     </setting>
 
-    <setting propertyKey="@Properties.powerSaver" title="@Strings.powerSaver">
+    <setting propertyKey="@Properties.secondsBehaviour" title="@Strings.secondsBehaviour">
+        <settingConfig type="list">
+            <listEntry value="1">@Strings.SecsAlwaysOn</listEntry>
+            <listEntry value="2">@Strings.SecsShowOnGlance</listEntry>
+            <listEntry value="3">@Strings.SecsAlwaysOff</listEntry>
+        </settingConfig>
+    </setting>
+
+    <setting propertyKey="@Properties.dateStringBehaviour" title="@Strings.dateStringBehaviour">
+        <settingConfig type="list">
+            <listEntry value="1">@Strings.DateSysLang</listEntry>
+            <listEntry value="2">@Strings.DateForceEnglish</listEntry>
+            <listEntry value="3">@Strings.DateForceGerman</listEntry>
+            <listEntry value="4">@Strings.DateOff</listEntry>
+        </settingConfig>
+    </setting>
+
+    <setting propertyKey="@Properties.dateStringHighContrast" title="@Strings.dateStringHighContrast">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.dateStringLargeFont" title="@Strings.dateStringLargeFont">
         <settingConfig type="boolean" />
     </setting>
 

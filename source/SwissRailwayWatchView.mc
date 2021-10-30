@@ -12,6 +12,25 @@ using Toybox.WatchUi;
 
 //From Garmin's "Analog" example
 
+var dayStrEng = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+];
+var dayStrGer = [
+    "Son",
+    "Mon",
+    "Die",
+    "Mit",
+    "Don",
+    "Fre",
+    "Sam",
+];
+
 class SwissRailwayWatchView extends WatchUi.WatchFace {
     var isAwake = true;
     // for always drawing seconds:
@@ -38,15 +57,19 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     var minuteMarker_ro;
     var minuteMarker_t;
     var font;
+    var fontLarge;
     var fontAA;
+    var fontAALarge;
     //settings:
     var setting_invertColors;
     var setting_simSecSyncPulse;
-    var setting_drawDate;
+    var setting_dateBehaviour;
+    var setting_dateLargeFont;
+    var setting_dateHighContrast;
     var setting_mode24hr;
     var setting_showBattWarning;
     var setting_showNotifications;
-    var setting_powerSaver;
+    var setting_secHandBehaviour;
     
     var hasAntiAlias; //whether to use anti-aliasing
 	
@@ -108,7 +131,9 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         readSettings();
         
         font = WatchUi.loadResource(Rez.Fonts.openSansReg);
+        fontLarge = WatchUi.loadResource(Rez.Fonts.openSansRegLarge);
         fontAA = WatchUi.loadResource(Rez.Fonts.openSansRegAA);
+        fontAALarge = WatchUi.loadResource(Rez.Fonts.openSansRegAALarge);
     }
 
     // This function is used to generate the coordinates of the 4 corners of the polygon
@@ -177,11 +202,13 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     function readSettings(){
         setting_invertColors = Application.Properties.getValue("invertColors");
         setting_simSecSyncPulse = Application.Properties.getValue("simSecSyncPulse");
-        setting_drawDate = Application.Properties.getValue("drawDate");
+        setting_dateBehaviour = Application.Properties.getValue("dateStringBehaviour");
+        setting_dateLargeFont = Application.Properties.getValue("dateStringLargeFont");
+        setting_dateHighContrast = Application.Properties.getValue("dateStringHighContrast");
         setting_showBattWarning = Application.Properties.getValue("lowBattWarning");
         setting_mode24hr = Application.Properties.getValue("mode24hr");
         setting_showNotifications = Application.Properties.getValue("notificationsIcon");
-        setting_powerSaver = Application.Properties.getValue("powerSaver");
+        setting_secHandBehaviour = Application.Properties.getValue("secondsBehaviour");
     }
     
     /* Called every second in full power mode
@@ -257,27 +284,32 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         targetDc.fillPolygon(generateHandCoordinates(screenCenterPoint, minuteHandAngle, minuteHand_r1, minuteHand_r2, minuteHand_t));
 
         if(isAwake and hasAntiAlias){
-            //draw second hand, fully AA
-            var sbb_seconds = clockTime.sec;
-            if(setting_simSecSyncPulse == true){
-                sbb_seconds *= 62.0/60.0;
-                //we use 58.9, because that's the last step before it hits a minute
-                if(sbb_seconds > 58.9){
-                  sbb_seconds = 58.9;
-                }
-            }
-            var secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
-                
-            var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
-            var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
-
-			if(setting_invertColors){
+            if(setting_invertColors){
                 targetDc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_ORANGE);
-			}else{
+            }else{
                 targetDc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-			}
-            targetDc.fillPolygon(secondHandPoints);
-            targetDc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
+            }
+
+            if(setting_secHandBehaviour==3){
+                //don't draw a second hand
+            }else{
+                //draw second hand, fully AA
+                var sbb_seconds = clockTime.sec;
+                if(setting_simSecSyncPulse == true){
+                    sbb_seconds *= 62.0/60.0;
+                    //we use 58.9, because that's the last step before it hits a minute
+                    if(sbb_seconds > 58.9){
+                    sbb_seconds = 58.9;
+                    }
+                }
+                var secondHand = (sbb_seconds / 60.0) * Math.PI * 2;
+                    
+                var secondHandPoints = generateHandCoordinates(screenCenterPoint, secondHand, secondHand_r1, secondHand_r2, secondHand_t);
+                var secondCircleCenter = [screenCenterPoint[0]-secondHand_r1*Math.sin(-secondHand), screenCenterPoint[1]-secondHand_r1*Math.cos(secondHand)];
+
+                targetDc.fillPolygon(secondHandPoints);
+                targetDc.fillCircle(secondCircleCenter[0], secondCircleCenter[1], secondHand_ball_r);
+            }
             //circle at centre of watch face
             targetDc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], (secondHand_t*11)/10);//10% thicker than hand
         
@@ -301,13 +333,23 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
             drawOffscreenBuffer(dc);
         }
 
-        if(!isAwake and setting_powerSaver){
+        var showSecs = true;
+        if(setting_secHandBehaviour==3){
+            //never show secs
+            showSecs = false;
+        } else if(!isAwake and (setting_secHandBehaviour==2)){
+            //"power saver" mode, hide when not glancing
+            showSecs = false;
+        }
+
+        if(!showSecs){
        		//don't draw seconds
 			if(setting_invertColors){
                 dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_ORANGE);
 			}else{
                 dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
 			}
+            //just a dot at the center of the face
             dc.fillCircle(screenCenterPoint[0], screenCenterPoint[1], Math.round(secondHand_t*1.1));//10% thicker than hand
         	return;
         }
@@ -396,26 +438,57 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
 
     
     function drawDate(dc, doAntiAlias) {
-        if(!setting_drawDate){
+        if(setting_dateBehaviour == 4){
+            //don't show date 
             return;
         }
 
+        var dateStr;
+        if(setting_dateBehaviour == 1){
+            //use system language
         var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-        var dateStr = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
-
-        if(setting_invertColors){
-            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        }else{
-            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dateStr= Lang.format("$1$ $2$", [info.day_of_week, info.day]);
+        }else {
+            //write days in either English or German:
+        var info = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+            if(setting_dateBehaviour == 2){
+                dateStr= Lang.format("$1$ $2$", [dayStrEng[info.day_of_week.toNumber()-1], info.day]);
+            }
+            else{
+                dateStr= Lang.format("$1$ $2$", [dayStrGer[info.day_of_week.toNumber()-1], info.day]);
+            }
         }
 
-		//TODO Fix font
-		if(doAntiAlias){
-            dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, fontAA, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+        if(setting_dateHighContrast){
+            if(setting_invertColors){
+                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+            }else{
+                dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+            }
+        }else{
+            if(setting_invertColors){
+                dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            }else{
+                dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            }
+        }
+
+
+        var useThisFont;
+		if(setting_dateLargeFont){
+            if(doAntiAlias){
+                useThisFont = fontAALarge;
+            }else{
+                useThisFont = fontLarge;
+            }
 		}else{
-            dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, font, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+            if(doAntiAlias){
+                useThisFont = fontAA;
+            }else{
+                useThisFont = font;
+            }
 		}
-//        dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, Graphics.FONT_TINY, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(screenCenterPoint[0], (screenCenterPoint[1]*13)/10, useThisFont, dateStr, Graphics.TEXT_JUSTIFY_CENTER);
     }
     
     function drawIcons(dc){

@@ -6,5 +6,9 @@
     <property id="lowBattWarning" type="boolean">true</property>
     <property id="notificationsIcon" type="boolean">true</property>
     <property id="mode24hr" type="boolean">false</property>
-    <property id="powerSaver" type="boolean">false</property>
+    <property id="secondsBehaviour" type="number">1</property>
+    <property id="dateStringBehaviour" type="number">1</property>
+    <property id="dateStringHighContrast" type="Boolean">false</property>
+    <property id="dateStringLargeFont" type="Boolean">false</property>
+
 </properties>

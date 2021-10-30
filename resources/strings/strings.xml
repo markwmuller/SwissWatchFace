@@ -8,6 +8,19 @@
     <string id="lowBattWarning">Show low battery warning</string>
     <string id="notificationsIcon">Show notification icon</string>
     <string id="mode24hr">Use 24 hour mode for hour hand</string>
-    <string id="powerSaver">Hide seconds hand to save power</string>
+    <string id="secondsBehaviour">Second hand behaviour</string>
+
+    <string id="SecsAlwaysOn">Always shown</string>
+    <string id="SecsAlwaysOff">Always hidden</string>
+    <string id="SecsShowOnGlance">Power saver: hide automatically</string>
+
+    <string id="dateStringBehaviour">Date display language (if not rendering)</string>
+    <string id="DateSysLang">Print date (user language)</string>
+    <string id="DateForceEnglish">Print date in English</string>
+    <string id="DateForceGerman">Print date in German</string>
+    <string id="DateOff">Hide date</string>
+
+    <string id="dateStringHighContrast">Use high contrast for date</string>
+    <string id="dateStringLargeFont">Use larger font for date</string>
 
 </strings>
