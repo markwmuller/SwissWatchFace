@@ -1,2 +1,3 @@
 .stignore
 bin/*
+/.vscode/*

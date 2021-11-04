@@ -130,6 +130,7 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
         
         readSettings();
         
+        //this fails with venu 2?
         font = WatchUi.loadResource(Rez.Fonts.openSansReg);
         fontLarge = WatchUi.loadResource(Rez.Fonts.openSansRegLarge);
         fontAA = WatchUi.loadResource(Rez.Fonts.openSansRegAA);
