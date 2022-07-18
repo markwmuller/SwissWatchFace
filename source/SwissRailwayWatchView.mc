@@ -84,18 +84,22 @@ class SwissRailwayWatchView extends WatchUi.WatchFace {
     function onLayout(dc) {
         // If this device supports BufferedBitmap, allocate the buffers we use for drawing
         if(Toybox.Graphics has :BufferedBitmap) {
-            offscreenBuffer = new Graphics.BufferedBitmap({
-                :width=>dc.getWidth(),
-                :height=>dc.getHeight(),
-                :palette=> [
-                    Graphics.COLOR_BLACK,
-                    Graphics.COLOR_WHITE,
-                    Graphics.COLOR_RED,
-                    Graphics.COLOR_ORANGE,
-                    Graphics.COLOR_LT_GRAY,
-                    Graphics.COLOR_DK_GRAY,
-                ]
-            });
+            var bbmo = {:width=>dc.getWidth(),
+	                 :height=>dc.getHeight(),
+	                 :palette=>[
+                        Graphics.COLOR_BLACK,
+                        Graphics.COLOR_WHITE,
+                        Graphics.COLOR_RED,
+                        Graphics.COLOR_ORANGE,
+                        Graphics.COLOR_LT_GRAY,
+                        Graphics.COLOR_DK_GRAY,
+                    ]};
+	        if (Toybox.Graphics has :createBufferedBitmap) {
+    			var bbRef = Graphics.createBufferedBitmap(bbmo);
+    			offscreenBuffer = bbRef.get();
+    		} else {
+    			offscreenBuffer = new Graphics.BufferedBitmap(bbmo);
+			}
         } else {
             offscreenBuffer = null;
         }
